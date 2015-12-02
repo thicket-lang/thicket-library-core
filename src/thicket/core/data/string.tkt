@@ -1,0 +1,60 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+module Data.String
+
+from Data.Boolean import bool,true,false
+from System.Internal import internal
+from Data.Native import native
+from Data.Number import number
+from Data.Char import char
+from Data.Option import option,none,some
+from Data.Comparable import Comparable,comparable
+from Data.Hashable import Hashable
+
+class string this:native {
+    with comparable[string]
+        
+    getAt    : number -> option[char]
+    setAt    : number -> char -> string
+
+    (+)      : string -> string   
+    (*)      : number -> string    
+    
+    length   : number
+
+    toNumber : option[number]    
+} {
+    def unbox = self
+
+    def getAt n = internal "string.getAt" self n (n -> some $ char n) none
+    def setAt n v = string $ internal "string.setAt" self n v
+    def (==) n = internal "generic.==" self n true false
+    def (<?) n = internal "generic.<" self n true false
+    
+    def (+) s = string $ internal "string.+" self s
+    def (*) n = 1 to n fold "" (r _ -> self + r)
+    
+    def toNumber = internal "string.toNumber" self (n -> some $ number n) none
+    def length = number $ internal "string.length" self
+}
+
+/**
+ * Adapters
+ */
+
+def adapter string2number : string -> option[number] = string::toNumber
+
+def adapter string2hashable : string -> Hashable[string] = s -> {
+    Hashable s (number $ internal "string.hash" s)
+}
+    
+def adapter string2comparable : string -> Comparable[string] = s -> { 
+    Comparable s s.(==) s.(!=) s.(=>) s.(<=) s.(?>) s.(<?) (string2hashable s)
+}
+

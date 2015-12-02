@@ -1,0 +1,97 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+
+module Data.Number
+
+from System.Internal import internal
+
+from Data.Native import native
+from Data.Boolean import bool,true,false
+from Data.Comparable import Comparable,comparable
+from Data.Hashable import Hashable
+from Data.String import string
+from Data.Pair import Pair
+from Data.List import emptyList,list
+
+from Lang.Range import Range,foreach
+
+class number this:native {
+    with comparable[number]
+    
+    (+)      : number -> number
+    (-)      : number -> number
+    (*)      : number -> number
+    (/)      : number -> number
+    (%)      : number -> number
+    (^)      : number -> number
+    (^^)     : number -> number
+    
+    (<<)     : number -> number
+    (>>)     : number -> number
+
+    (&)      : number -> number
+    (|)      : number -> number
+
+    (++)     : number
+    (--)     : number    
+    negate   : number
+    
+    hash     : number
+    
+    to       : number -> Range
+    downto   : number -> Range
+    
+    (..)     : number -> list[number]
+    
+    toString : string 
+} {
+    def unbox = self
+    def (==) n = internal "generic.==" self n true false
+    def (<?) n = internal "generic.<" self n true false
+    
+    def (+)  n = number $ internal "number.+" self n
+    def (-)  n = number $ internal "number.-" self n
+    def (*)  n = number $ internal "number.*" self n
+    def (/)  n = number $ internal "number./" self n
+    def (%)  n = number $ internal "number.%" self n
+    def (^)  n = 1 to n fold 1 (_ -> self *)
+    def (^^) n = 1 to n fold 1 (_ -> self ^)
+    
+    def (<<) n = number $ internal "number.<<" self n
+    def (>>) n = number $ internal "number.>>" self n
+
+    def (|) n = number $ internal "number.|" self n
+    def (&) n = number $ internal "number.&" self n
+
+    def (++) = self + 1
+    def (--) = self - 1
+    def negate = self * -1
+
+    def toString = string $ internal "number.toString" self
+    
+    def to n = foreach (self,n) step 1
+    def downto n = foreach (self,n) step -1
+    
+    def (..) n = n downto self fold emptyList (l -> l+:)
+}
+
+def Infinity : number = { 1 / 0 }
+
+/**
+ * Adapters
+ */
+
+def adapter number2string : number -> string = number::toString
+    
+def adapter number2hashable : number -> Hashable[number] = s -> {
+    Hashable s s
+}
+    
+def adapter number2comparable : number -> Comparable[number] = s -> {
+    Comparable s s.(==) s.(!=) s.(=>) s.(<=) s.(?>) s.(<?) (number2hashable s)
+}

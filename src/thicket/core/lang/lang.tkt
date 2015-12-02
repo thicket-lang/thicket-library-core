@@ -1,0 +1,14 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+module Lang
+ 
+from Lang.When import *
+from Lang.Do import *
+from Lang.Range import *
+from Lang.Strict import *

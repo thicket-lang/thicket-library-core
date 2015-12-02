@@ -1,0 +1,22 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+module Data.Monad
+
+model Monad[M a] {
+    return : a -> M[a]
+    (>>=)  : [b] M[a] -> (a -> M[b]) -> M[b]
+}
+
+/* Examples
+ 
+ def optionMonad : [a]Monad[option a] = { Monad some option::flatmap } ;;
+ def tryMonad    : [a]Monad[try a]    = { Monad success try::flatmap } ;;
+ def listMonad   : [a]Monad[list a]   = { Monad emptyList.(+:) list::flatmap } ;; 
+ 
+*/

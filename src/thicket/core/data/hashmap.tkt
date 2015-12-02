@@ -1,0 +1,100 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+module Data.Hashmap
+
+from Data.Number import number
+from Data.Boolean import bool,true
+from Data.Option import option
+from Data.Pair import Pair
+from Data.List import list,emptyList,ziplist,list2collection
+from Data.Comparable import Comparable
+from Data.Collection import Collection
+from Data.Hashable import Hashable
+from Data.Array import array,emptyArray
+from Data.Map import Map
+
+from Lang.Builder.Map import *
+
+from Standard.Math import math
+
+typedef Hashmap[k v] = array[list[(k,v)]] 
+
+class hashmap[k v] this:array[list[(k,v)]] {
+  unbox   : Hashmap[k v]
+ 
+  empty   : bool
+ 
+  find    : Comparable[k] -> option[v]
+  add     : Comparable[k] -> v -> hashmap[k v]
+  remove  : Comparable[k] -> hashmap[k v]
+  
+  keys    : Collection[k]
+  values  : Collection[v]
+  entries : Collection[(k,v)]
+} {
+  def unbox = this
+  
+  def empty = 
+    this foldR (e r -> r and $ e empty) true
+
+  def find c = 
+    let index = c hashable hash % this.length in
+    let retrieve = l -> l find (e -> c == e._1) map (e -> e._2) in
+          this get index flatmap retrieve
+
+  def add c v = 
+    let index = c hashable hash % this.length in
+    let cleanup = l -> l filter (e -> c != e._1) in
+    let entries = this get index fold emptyList cleanup in
+          hashmap $ this set index $ entries +: ((c unbox),v)          
+
+  def remove c =
+    let index = c hashable hash % this.length in
+    let cleanup = l -> l filter (e -> c != e._1) in
+    let entries = this get index fold emptyList cleanup in            
+        hashmap $ entries empty fold
+                        { this reset index }
+                        { this set index entries } 
+
+  def keys = 
+    let l = this foldR (l r -> l ++ r) emptyList in
+        list2collection $ ziplist (l unbox) unzip _1
+           
+  def values =
+    let l = this foldR (l r -> l ++ r) emptyList in
+        list2collection $ ziplist (l unbox) unzip _2
+        
+  def entries = list2collection $ this foldR (l r -> l ++ r) emptyList
+}   
+
+/**
+ * Factory
+ */
+
+def newSizedHashmap : [k v] number -> hashmap[k v] = n -> {
+    hashmap $ emptyArray $ math.max 128 n
+}
+
+def newHashmap : hashmap = { newSizedHashmap 256 }
+
+def Hashmap : [a b] mapBuilder[a b hashmap[a b]] = {
+    mapBuilder (map2entity newHashmap)
+}
+
+def map2entity : [a b] hashmap[a b] -> MapBuilder[a b hashmap[a b]] = l -> {
+    MapBuilder l (a b -> map2entity $ l add a b)
+}
+
+//
+// Adapters
+//
+
+def adapter hashmap2map : [k v] hashmap[k v] -> Map[k v] = h -> {
+    Map h.find (c v -> hashmap2map $ h.add c v) (_ -> h.keys) (_ -> h.values) (_ -> h.entries)
+}

@@ -1,0 +1,37 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+module Data.Comparable
+ 
+from Data.Hashable import Hashable
+from Data.Boolean import bool
+
+model Comparable[k] {
+    unbox    : k    
+    (==)     : k -> bool 
+    (!=)     : k -> bool    
+    (=>)     : k -> bool
+    (<=)     : k -> bool    
+    (?>)     : k -> bool
+    (<?)     : k -> bool    
+    
+    hashable : Hashable[k]
+}
+
+trait comparable[k] {
+    with Comparable[k]
+} {
+    def (!=) n = self == n not
+    def (<=) n = self == n || $ self <? n
+    def (=>) n = self <? n not
+    def (?>) n = self <= n not
+}
+
+def adapter comparable2hashable : [a] Comparable[a] -> Hashable[a] = c -> {
+    c hashable
+}
