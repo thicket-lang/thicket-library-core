@@ -48,15 +48,15 @@
     ],
     "native": { 
         "javascript": [
-            "native/main/js/common.js",
-            "native/main/js/number.js",
-            "native/main/js/string.js",
-            "native/main/js/character.js",
-            "native/main/js/array.js",        
-            "native/main/js/backend.js",
-            "native/main/js/mutable.js",
-            "native/main/js/console.js",
-            "native/main/js/range.js"
+            "src/main/js/common.js",
+            "src/main/js/number.js",
+            "src/main/js/string.js",
+            "src/main/js/character.js",
+            "src/main/js/array.js",        
+            "src/main/js/backend.js",
+            "src/main/js/mutable.js",
+            "src/main/js/console.js",
+            "src/main/js/range.js"
         ]
     },
     "requires": [
