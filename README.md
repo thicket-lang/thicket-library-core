@@ -15,7 +15,7 @@ One core library dedicated to the Thicket language.
 ## Package construction
 
 ```sh
-> thicket package -i target/ -i . core.pkt -o target/ -v
+> thicket package -i target/ -i . core.pkt -o target/ -s -n -v
 [Core] - Reading definition
 [Boot.Core] - Module objcode added
 [Data] - Module objcode added
