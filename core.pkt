@@ -1,6 +1,7 @@
 {
     "name": "Core",
     "version": "1.0",
+    "location": "https://github.com/thicket-lang/thicket-library-core",
     "description":"Core Data package",
     "developers": [
         {
@@ -48,15 +49,15 @@
     ],
     "native": { 
         "javascript": [
-            "src/main/js/common.js",
-            "src/main/js/number.js",
-            "src/main/js/string.js",
-            "src/main/js/character.js",
-            "src/main/js/array.js",        
-            "src/main/js/backend.js",
-            "src/main/js/mutable.js",
-            "src/main/js/console.js",
-            "src/main/js/range.js"
+            "common.js",
+            "number.js",
+            "string.js",
+            "character.js",
+            "array.js",        
+            "backend.js",
+            "mutable.js",
+            "console.js",
+            "range.js"
         ]
     },
     "requires": [
