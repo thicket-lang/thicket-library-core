@@ -5,7 +5,7 @@ One core library dedicated to the Thicket language.
 ## Modules compilation
 
 ```sh
-> find src/ -name \*.tkt | xargs thicket compile -o target/ -v
+> thicket compile -o target/ -v `find src/ -name \*.tkt`
 [Boot.Core] - Reading
 [Data.Additionable] - Reading
 [Data.Array] - Reading
@@ -15,7 +15,7 @@ One core library dedicated to the Thicket language.
 ## Package construction
 
 ```sh
-> thicket package -i target/ -i . core.pkt -o target/ -s -n -v
+> thicket package -i target/ -i . -o target/ -s -n -v core.pkt 
 [Core] - Reading definition
 [Boot.Core] - Module objcode added
 [Data] - Module objcode added
