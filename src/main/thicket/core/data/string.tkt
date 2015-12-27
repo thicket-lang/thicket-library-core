@@ -8,40 +8,50 @@
  
 module Data.String
 
-from Data.Boolean import bool,true,false
 from System.Internal import internal
+
+from Data.Boolean import bool,true,false
 from Data.Native import native
 from Data.Number import number
 from Data.Char import char
 from Data.Option import option,none,some
-from Data.Comparable import Comparable,comparable
-from Data.Hashable import Hashable
+from Data.Comparable import comparable
+from Data.Hashable import hashable
+from Data.Matcher import matcher
+from Data.Indexable import Indexable
 
 class string this:native {
     with comparable[string]
+    with hashable[string]
+    with matcher[string]
+    with Indexable[char string]
         
-    getAt    : number -> option[char]
-    setAt    : number -> char -> string
+    get      : number -> option[char]
+    set      : number -> char -> string
 
     (+)      : string -> string   
     (*)      : number -> string    
     
     length   : number
 
-    toNumber : option[number]    
+    toNumber : option[number] 
 } {
     def unbox = self
 
-    def getAt n = internal "string.getAt" self n (n -> some $ char n) none
-    def setAt n v = string $ internal "string.setAt" self n v
     def (==) n = internal "generic.==" self n true false
     def (<?) n = internal "generic.<" self n true false
+    
+    def hash = number $ internal "string.hash" self
+
+    def get n = internal "string.getAt" self n (n -> some $ char n) none
+    def set n v = string $ internal "string.setAt" self n v
     
     def (+) s = string $ internal "string.+" self s
     def (*) n = 1 to n fold "" (r _ -> self + r)
     
+    def length = number $ internal "string.length" self    
+    
     def toNumber = internal "string.toNumber" self (n -> some $ number n) none
-    def length = number $ internal "string.length" self
 }
 
 /**
@@ -49,12 +59,3 @@ class string this:native {
  */
 
 def adapter string2number : string -> option[number] = string::toNumber
-
-def adapter string2hashable : string -> Hashable[string] = s -> {
-    Hashable s (number $ internal "string.hash" s)
-}
-    
-def adapter string2comparable : string -> Comparable[string] = s -> { 
-    Comparable s s.(==) s.(!=) s.(=>) s.(<=) s.(?>) s.(<?) (string2hashable s)
-}
-
