@@ -6,7 +6,7 @@
  * Licensed under the LGPL2 license.
  */
 
-module Example.Test
+module Test.Number
 
 import Data
 

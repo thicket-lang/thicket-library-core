@@ -23,6 +23,22 @@ One core library dedicated to the Thicket language.
 ...
 ```
 
+## Tests
+
+### Compilation
+
+```sh
+> thicket compile -i bin -i <...>/thicket-library-spec/bin -o obj -p Spec `find src/test/thicket -name \*.tkt` 
+...
+```
+
+### Execution
+
+```sh
+> thicket execute -i bin -i <...>/thicket-library-spec/bin -i obj -p Spec Test
+...
+```
+
 ## License
 
 Copyright (C)2015 D. Plaindoux.
