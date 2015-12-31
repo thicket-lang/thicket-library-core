@@ -36,6 +36,13 @@ One core library dedicated to the Thicket language.
 
 ```sh
 > thicket execute -i bin -i <...>/thicket-library-spec/bin -i obj -p Spec Test
+Number operations:
+  expect 2+4 to be 6
+  expect 2-4 to be -2
+  expect 2*4 to be 8
+  expect 2/4 to be 0.5
+success 4 failure 0
+
 ...
 ```
 
