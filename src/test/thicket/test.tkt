@@ -10,13 +10,7 @@ module Test
 
 import Test.Number 
 
-def testSuite : TestLogger -> unit = logger -> {
-    do {
-      List[
-        operationAssertions;
-        predicateAssertions
-      ] each $ r -> r logger
-    } return ()
-}
+do {
+    testSuite from Test.Number consoleLogger
+} return ()
 
-testSuite consoleLogger
