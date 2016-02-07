@@ -1,0 +1,113 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015-2016 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+
+module Test.Data.Array
+
+import Data
+
+import System.Console
+import System.Runtime
+
+import Spec.Core
+import Spec.Logger.Console
+
+def sequenceAssertions : TestLogger -> unit = l -> {
+    description l "Array as a sequence"
+        it "expect (emptyArray 0 isEmpty) to be true" {
+            expect (emptyArray 0 isEmpty) toBe true
+        }
+        it "expect (emptyArray 1 isEmpty) to be false" {
+            expect (emptyArray 1 isEmpty) toBe false
+        }
+        it "expect (emptyArray 1 isDefinedAt 0) to be false" {
+            expect (emptyArray 1 isDefinedAt 0) toBe false
+        }
+        it "expect (emptyArray 1 set 0 1 isDefinedAt 0) to be true" {
+            expect (emptyArray 1 set 0 1 isDefinedAt 0) toBe true
+        }
+        it "expect (emptyArray 1 indexOf 1) to be none" {
+            expect (emptyArray 1 indexOf 1 fold (-1) (i -> i)) toBe (-1)
+        }
+        it "expect (emptyArray 1 set 0 1 indexOf 1) to be (some 0)" {
+            expect (emptyArray 1 set 0 1 indexOf 1 fold (-1) (i -> i)) toBe 0
+        }
+        it "expect (emptyArray 2 set 0 1 set 1 1 lastIndexOf 1) to be (some 1)" {
+            expect (emptyArray 2 set 0 1 set 1 1 lastIndexOf 1 fold (-1) (i -> i)) toBe 1
+        }
+        it "expect (emptyArray 2 lastIndexOf 1) to be none" {
+            expect (emptyArray 2 lastIndexOf 1 fold (-1) (i -> i)) toBe (-1)
+        }
+        it "expect (emptyArray 0 length) to be 0" {
+            expect (emptyArray 0 length) toBe 0
+        }
+        it "expect (emptyArray 1 length) to be 1" {
+            expect (emptyArray 1 length) toBe 1
+        }
+        it "expect (emptyArray 1 get 0) to be none" {
+            expect (emptyArray 1 get 0 fold (-1) (i -> i)) toBe (-1)
+        }
+        it "expect (emptyArray 1 set 0 1 get 0) to be (some 1)" {
+            expect (emptyArray 1 set 0 1 get 0 fold (-1) (i -> i)) toBe 1
+        }
+        it "expect (emptyArray 1 toList length) to be 0" {
+            expect (emptyArray 1 toList length) toBe 0
+        }
+        it "expect (emptyArray 1 set 0 1 toList length) to be 1" {
+            expect (emptyArray 1 set 0 1 toList length) toBe 1
+        }
+        it "expect (emptyArray 1 set 0 1 toList length) to be 1" {
+            expect (emptyArray 1 set 0 1 toList length) toBe 1
+        }
+    done 
+}
+
+def modifiableAssertions : TestLogger -> unit = l -> {
+    description l "Array as a modifiable"
+        it "expect (emptyArray 0 set 0 1 length) to be 0" {
+            expect (emptyArray 0 set 0 1 length) toBe 0
+        }
+        it "expect (emptyArray 1 set 0 1 get 0) to be (some 1)" {
+            expect (emptyArray 1 set 0 1 get 0 fold (-1) (i -> i)) toBe 1
+        }
+    done
+}
+
+def immutabilityAssertions : TestLogger -> unit = l -> {
+    description l "Array immutable"
+        it "expect (emptyArray 0 set 0 1 length) to be 0" {
+            let a = emptyArray 1 in
+            let b = a set 0 1 in
+                expect (a get 0 fold (-1) (i -> i)) toBe (-1) && $
+                expect (b get 0 fold (-1) (i -> i)) toBe 1 
+        }
+    done
+}
+
+def arrayAssertions : TestLogger -> unit = l -> {
+    description l "Array methods"
+        it "expect (emptyArray 1 set 0 1 reset 0 get 0) to be none" {
+            expect (emptyArray 1 set 0 1 reset 0 get 0 fold (-1) (i -> i)) toBe (-1)
+        }
+        it "expect (emptyArray 2 set 0 1 reset 1 get 0) to be (some 1)" {
+            expect (emptyArray 2 set 0 1 reset 1 get 0 fold (-1) (i -> i)) toBe 1
+        }
+    done
+}
+
+def testSuite : TestLogger -> unit = logger -> {
+    do {
+      List[
+        sequenceAssertions;
+        modifiableAssertions;
+        immutabilityAssertions;
+        arrayAssertions
+      ] each $ r -> r logger
+    } return ()
+}
+
+testSuite consoleLogger

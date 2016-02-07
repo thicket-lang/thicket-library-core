@@ -2,7 +2,7 @@
  * Thicket
  * https://github.com/d-plaindoux/thicket
  *
- * Copyright (c) 2015 Didier Plaindoux
+ * Copyright (c) 2015-2016 Didier Plaindoux
  * Licensed under the LGPL2 license.
  */
  
@@ -20,6 +20,6 @@ class strictClass[a] this:a {
     def fold f = f this
 }
 
-def strict : [a b] (a -> b) -> a -> b = f a -> {
+def strict : [a,b] (a -> b) -> a -> b = f a -> {
     strictClass a fold f
 }

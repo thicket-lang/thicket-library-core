@@ -2,7 +2,7 @@
  * Thicket
  * https://github.com/d-plaindoux/thicket
  *
- * Copyright (c) 2015 Didier Plaindoux
+ * Copyright (c) 2015-2016 Didier Plaindoux
  * Licensed under the LGPL2 license.
  */
  
@@ -11,7 +11,7 @@ module Data.Indexable
 from Data.Number import number
 from Data.Option import option
 
-model Indexable[a t] {
+model Indexable[a,t] {
     get : number -> option[a]
     set : number -> a -> t
 }

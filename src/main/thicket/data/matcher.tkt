@@ -2,17 +2,16 @@
  * Thicket
  * https://github.com/d-plaindoux/thicket
  *
- * Copyright (c) 2015 Didier Plaindoux
+ * Copyright (c) 2015-2016 Didier Plaindoux
  * Licensed under the LGPL2 license.
  */
  
 module Data.Matcher
 
 from Lang.Switch import switch
-from Data.Comparable import Comparable
 
 model Matcher[a] {
-    match : [b] switch[a b]
+    match : [b] switch[a,b]
 }
 
 trait matcher[a] {

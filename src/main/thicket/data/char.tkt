@@ -2,11 +2,11 @@
  * Thicket
  * https://github.com/d-plaindoux/thicket
  *
- * Copyright (c) 2015 Didier Plaindoux
+ * Copyright (c) 2015-2016 Didier Plaindoux
  * Licensed under the LGPL2 license.
  */
  
-module Data.Char
+module Data.Character
 
 from System.Internal import internal
 from Data.Native import native
@@ -15,7 +15,7 @@ from Data.String import string
 from Data.Boolean import true,false
 from Data.Comparable import comparable
 from Data.Hashable import hashable
-from Data.Matcher import Matcher
+from Data.Matcher import matcher
 from Data.Additionable import additionable
 
 from Lang.Switch import switch
@@ -24,10 +24,13 @@ class char this:native {
     with comparable[char]
     with hashable[char]
     with additionable[char]
-    with Matcher[char]
+    with matcher[char]
     
     toString : string
+    toNumber : number
 } {
+    def unbox = self
+
     def hash = self toString hash
 
     def (==) n = internal "generic.==" self n true false
@@ -36,14 +39,14 @@ class char this:native {
     def (+) n = char $ internal "char.+" self n
     
     def toString = string this
-    
-    def match = switch self
+    def toNumber = number $ internal "char.toNumber" self
 }
 
 def eol : char = '\n'
 
 /**
- * Adapters
+ * Adapter
  */
  
 def adapter char2string : char -> string = char::toString
+def adapter char2number : char -> number = char::toNumber

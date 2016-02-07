@@ -2,15 +2,19 @@
  * Thicket
  * https://github.com/d-plaindoux/thicket
  *
- * Copyright (c) 2015 Didier Plaindoux
+ * Copyright (c) 2015-2016 Didier Plaindoux
  * Licensed under the LGPL2 license.
  */
 
 module Test
 
-import Test.Number 
+import Test.Data.Number 
+import Test.Data.Array
 
 do {
-    testSuite from Test.Number consoleLogger
+    List[
+        testSuite from Test.Data.Number;
+        testSuite from Test.Data.Array        
+    ] each $ e -> e consoleLogger
 } return ()
 

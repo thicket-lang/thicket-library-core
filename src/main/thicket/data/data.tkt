@@ -2,7 +2,7 @@
  * Thicket
  * https://github.com/d-plaindoux/thicket
  *
- * Copyright (c) 2015 Didier Plaindoux
+ * Copyright (c) 2015-2016 Didier Plaindoux
  * Licensed under the LGPL2 license.
  */
  
@@ -10,7 +10,7 @@ module Data
  
 import Data.Native
 import Data.Unit
-import Data.Char
+import Data.Character
 import Data.Number
 import Data.String
 import Data.Pair

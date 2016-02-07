@@ -2,7 +2,7 @@
  * Thicket
  * https://github.com/d-plaindoux/thicket
  *
- * Copyright (c) 2015 Didier Plaindoux
+ * Copyright (c) 2015-2016 Didier Plaindoux
  * Licensed under the LGPL2 license.
  */
  
@@ -16,7 +16,7 @@ from Data.Boolean import bool
 from Data.Native import native
 from Data.Number import number
 from Data.Option import option,some,none
-from Data.Indexable import Indexable
+from Data.Sequence import sequence, modifiable
 
 from Lang.Do import do
 
@@ -29,14 +29,12 @@ from System.Internal import internal
  */
 
 class array[a] this:native {
-    with Indexable[a array[a]]
+    with sequence[a]
+    with modifiable[a,array[a]]
 
     reset  : number -> array[a]
     
-    length : number
-    
     map    : [b] (a -> b) -> array[b]
-    find   : (a -> bool) -> option[a]
 
     each   : [b] (a -> b) -> unit
 
@@ -52,11 +50,6 @@ class array[a] this:native {
     def map f = 
         let update = r i -> self get i fold r { a -> r set i $ f a } in
             0 to (self.length --) fold (emptyArray self.length) update
-            
-    def find p = 
-        let filter = a -> p a fold (some a) none in
-        let check = r i -> r fold (self get i fold r filter) some in
-            0 to (self.length --) fold none check
             
     def each f = 
         0 to (self.length --) fold () (r i -> self get i fold r $ a -> do {f a} return r)

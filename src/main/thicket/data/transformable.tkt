@@ -5,11 +5,11 @@
  * Copyright (c) 2015-2016 Didier Plaindoux
  * Licensed under the LGPL2 license.
  */
- 
-module Lang
- 
-from Lang.When import *
-from Lang.Do import *
-from Lang.Switch import *
-from Lang.Range import *
-from Lang.Strict import *
+
+module Data.Transformable
+
+from Data.Try import try
+
+model Transformable[a,b] {
+    transform : a -> try[b]
+}
