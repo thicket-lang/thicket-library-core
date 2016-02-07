@@ -1,0 +1,77 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015-2016 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+
+module Test.Data.Character
+
+import Data
+
+import System.Console
+import System.Runtime
+
+import Spec.Core
+import Spec.Logger.Console
+
+def comparableAssertions : TestLogger -> unit = l -> {
+    description l "Character as a sequence"
+        it "expect ('a' == 'a') to be true" {
+            expect ('a' == 'a') toBe true
+        }
+        it "expect (a' == b') to be false" {
+            expect ('a' == 'b') toBe false
+        }
+    done
+}
+
+def matcherAssertions : TestLogger -> unit = l -> {
+    description l "Character as a matcher"
+        it "expect ('a' match case 'a' => 1 otherwise => 2) to be 1" {
+            expect ('a' match case 'a' => 1 otherwise => 2) toBe 1
+        }
+        it "expect ('a' match case 'a' => 1 otherwise => 2) to be 2" {
+            expect ('b' match case 'a' => 1 otherwise => 2) toBe 2
+        }
+    done
+}
+
+def operatorsAssertions : TestLogger -> unit = l -> {
+    description l "Character operators"
+        it "expect ('a' + 1) to be 'b'" {
+            expect ('a' + 1) toBe 'b'
+        }
+        it "expect ('a' + 1) to be 'b'" {
+            expect ('a' + 1) toBe 'b'
+        }
+    done
+}
+
+def specialsAssertions : TestLogger -> unit = l -> {
+    description l "Character specials"
+        it "expect ('\t' toString) to be \"<TAB>\"" {
+            expect ('\t' toString) toBe "\t"
+        }
+        it "expect ('\n' toString) to be \"<CR>\"" {
+            expect ('\n' toString) toBe "\n"
+        }
+        it "expect ('\0' toString) to be \"\"" {
+            expect ('\0' toString) toBe "\0"
+        }
+    done
+}
+
+def testSuite : TestLogger -> unit = logger -> {
+    do {
+      List[
+        comparableAssertions;
+        matcherAssertions;
+        operatorsAssertions;
+        specialsAssertions
+      ] each $ r -> r logger
+    } return ()
+}
+
+testSuite consoleLogger

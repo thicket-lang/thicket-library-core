@@ -31,7 +31,7 @@ class char this:native {
 } {
     def unbox = self
 
-    def hash = self toString hash
+    def hash = self toNumber
 
     def (==) n = internal "generic.==" self n true false
     def (<?) n = internal "generic.<" self n true false
