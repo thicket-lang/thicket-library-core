@@ -8,13 +8,15 @@
 
 module Test
 
-import Test.Data.Number 
 import Test.Data.Array
+import Test.Data.Boolean
+import Test.Data.Number 
 
 do {
     List[
-        testSuite from Test.Data.Number;
-        testSuite from Test.Data.Array        
+        testSuite from Test.Data.Array;
+        testSuite from Test.Data.Boolean;
+        testSuite from Test.Data.Number
     ] each $ e -> e consoleLogger
 } return ()
 

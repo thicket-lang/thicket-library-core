@@ -46,10 +46,10 @@ class bool this:Bool {
     def True.fold  t _ = t
     def False.fold _ f = f
 
+    def not    = self fold false true
     def (&&) l = self fold l false
     def (||) l = self fold self l
     def (=>) l = self not || l
-    def not    = self fold false true
     
     def toString = self fold "true" "false"
     

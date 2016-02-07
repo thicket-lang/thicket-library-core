@@ -1,0 +1,90 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015-2016 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+
+module Test.Data.Boolean
+
+import Data
+
+import System.Console
+import System.Runtime
+
+import Spec.Core
+import Spec.Logger.Console
+
+def comparableAssertions : TestLogger -> unit = l -> {
+    description l "Boolean as a comparable"
+        it "expect (true == true) to be true" {
+            expect (true == true) toBe true
+        }
+        it "expect (false == false) to be true" {
+            expect (false == false) toBe true
+        }
+        it "expect (false == true) to be false" {
+            expect (false == true) toBe false
+        }
+    done
+}
+
+def matcherAssertions : TestLogger -> unit = l -> {
+    description l "Boolean as a matcher"
+        it "expect (true match case true => 1 otherwise => 2) to be 1" {
+            expect (true match case true => 1 otherwise => 2) toBe 1
+        }
+        it "expect (false match case true => 1 otherwise => 2) to be 2" {
+            expect (false match case true => 1 otherwise => 2) toBe 2
+        }
+    done
+}
+
+def operatorsAssertions : TestLogger -> unit = l -> {
+    description l "Boolean operators"
+        it "expect (true || true) to be true" {
+            expect (true || true) toBe true
+        }
+        it "expect (true || false) to be true" {
+            expect (true || false) toBe true
+        }
+        it "expect (false || true) to be true" {
+            expect (false || true) toBe true
+        }
+        it "expect (false || false) to be true" {
+            expect (false || false) toBe false
+        }    
+        it "expect (true && true) to be true" {
+            expect (true && true) toBe true
+        }
+        it "expect (true && false) to be false" {
+            expect (true && false) toBe false
+        }
+        it "expect (false && true) to be false" {
+            expect (false && true) toBe false
+        }
+        it "expect (false && false) to be true" {
+            expect (false && false) toBe false
+        }    
+        it "expect (true fold 1 2) to be 1" {
+            expect (true fold 1 2) toBe 1
+        }    
+        it "expect (false fold 1 2) to be 2" {
+            expect (false fold 1 2) toBe 2
+        }            
+
+    done
+}
+
+def testSuite : TestLogger -> unit = logger -> {
+    do {
+      List[
+        comparableAssertions;
+        matcherAssertions;
+        operatorsAssertions
+      ] each $ r -> r logger
+    } return ()
+}
+
+testSuite consoleLogger
