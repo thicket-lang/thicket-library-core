@@ -16,6 +16,8 @@ do {
     List[
         testSuite from Test.Data.Array;
         testSuite from Test.Data.Boolean;
+        testSuite from Test.Data.Character;
+        testSuite from Test.Data.Hashmap;
         testSuite from Test.Data.Number
     ] each $ e -> e consoleLogger
 } return ()
