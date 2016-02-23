@@ -1,0 +1,7 @@
+{ "definition":
+    {
+        "requires": [
+            { "Spec": "1.0" }
+        ]
+    }
+}

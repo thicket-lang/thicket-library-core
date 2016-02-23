@@ -1,0 +1,73 @@
+{ "definition":
+    {
+        "name": "Core",
+        "version": "1.0",
+        "description":"Core Data package",
+        "developers": [
+            {
+                "name": "D. Plaindoux",
+                "mail": "d.plaindoux@free.fr"
+            }
+        ],
+        "modules": [
+            "Boot.Core",
+            "Data",
+            "Data.Additionable",
+            "Data.Array",
+            "Data.Boolean",
+            "Data.Character",
+            "Data.Collection",
+            "Data.Comparable",
+            "Data.Hashable",
+            "Data.Hashmap",
+            "Data.Indexable",    
+            "Data.JSon",   
+            "Data.List",
+            "Data.Map",
+            "Data.Matcher",
+            "Data.Monadic",
+            "Data.Mutable.Ref",
+            "Data.Native",
+            "Data.Number",
+            "Data.Option",
+            "Data.Pair",
+            "Data.Sequence",
+            "Data.String",
+            "Data.Trampoline",
+            "Data.Transformable",
+            "Data.Try",
+            "Data.Unit",
+
+            "Lang",
+            "Lang.When",
+            "Lang.Switch",
+            "Lang.Do",
+            "Lang.Range",
+            "Lang.Strict",
+            "Lang.Builder.Collection",
+            "Lang.Builder.Map",
+
+            "Logic.Combinators",
+
+            "Standard.Math",
+            "System.Internal",
+            "System.Console",
+            "System.Runtime"        
+        ],
+        "native": { 
+            "javascript": [
+                "common.js",
+                "number.js",
+                "string.js",
+                "character.js",
+                "array.js",        
+                "backend.js",
+                "mutable.js",
+                "console.js",
+                "range.js"
+            ]
+        },
+        "requires": [
+        ]
+    }
+}
