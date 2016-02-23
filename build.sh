@@ -17,7 +17,7 @@ if [ "x$THICKET_HOME" == "x" ]; then
     exit 1
 fi
 
-THICKET=$THICKET_HOME
+THICKET=$THICKET_HOME/bin/thicket
 THICKET_SITE=$HOME/.thicket/site
 
 SOURCE=src/main/thicket
@@ -34,7 +34,7 @@ rm obj/*
 # Compile main (generic)
 #
 
-$THICKET/bin/thicket compile `find src/main/thicket -name *.tkt` -v -o obj -i $THICKET_SITE -p ./package.pkt -d
+$THICKET compile `find src/main/thicket -name *.tkt` -v -o obj -i $THICKET_SITE -p ./package.pkt -d
 
 if [ $? -ne 0 ]; then
     exit 1
@@ -44,7 +44,7 @@ fi
 # Make package (generic)
 # 
 
-$THICKET/bin/thicket package -i obj -i src/main/js -o bin -n -s -v package.pkt
+$THICKET package -i obj -i src/main/js -o bin -n -s -v package.pkt
 
 if [ $? -ne 0 ]; then
     exit 1
@@ -54,7 +54,7 @@ fi
 # Compile test 
 # 
 
-$THICKET/bin/thicket compile -i $THICKET_SITE -i bin -p ./package.pkt -p ./package-test.pkt `find src/test/thicket -name *.tkt` -v -o obj
+$THICKET compile -i $THICKET_SITE -i bin -p ./package.pkt -p ./package-test.pkt `find src/test/thicket -name *.tkt` -v -o obj
 
 if [ $? -ne 0 ]; then
     exit 1
@@ -64,7 +64,7 @@ fi
 # Execute test
 #
 
-$THICKET/bin/thicket execute -i $THICKET_SITE -i obj -i bin -p ./package.pkt -p ./package-test.pkt Test
+$THICKET execute -i $THICKET_SITE -i obj -i bin -p ./package.pkt -p ./package-test.pkt Test
 
 if [ $? -ne 0 ]; then
     exit 1
