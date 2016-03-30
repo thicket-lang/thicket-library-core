@@ -21,7 +21,6 @@ model Hash[k] {
 trait hashable[k] {
     with Hashable[k]
     with Hash[k]   
-    hashable : Hash[k] 
 } {
     def hashable = self
 }

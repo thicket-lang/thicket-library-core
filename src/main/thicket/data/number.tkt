@@ -28,7 +28,6 @@ class number this:native {
     with matcher[number]
     with additionable[number]
     
-    (-)      : number -> number
     (*)      : number -> number
     (/)      : number -> number
     (%)      : number -> number
@@ -45,8 +44,6 @@ class number this:native {
     (++)     : number
     (--)     : number    
     negate   : number
-    
-    hash     : number
     
     to       : number -> Range[number]
     downto   : number -> Range[number]
