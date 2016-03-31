@@ -1,0 +1,97 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015-2016 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+
+module Test.Data.List
+
+import Data
+
+import System.Console
+import System.Runtime
+
+import Spec.Core
+import Spec.Logger.Console
+
+def headOf : list[number]-> number = l -> { l fold 0 combinators.K }
+
+def operationAssertions : TestLogger -> unit = l -> {
+    description l "List operations"
+        it "expect emptyList to be empty" {
+            expect (emptyList empty) toBe true
+        }
+        it "expect (emptyList length) to be 0" {
+            expect (emptyList length) toBe 0
+        }
+        it "expect (emptyList +: 1) to be not empty" {
+            expect (emptyList +: 1 empty) toBe false
+        }
+        it "expect (emptyList +: 1 length) to be 1" {
+            expect (emptyList +: 1 length) toBe 1
+        }
+        it "expect head of (emptyList +: 1 +: 2) to be 2" {
+            expect (headOf $ emptyList +: 1 +: 2) toBe 2
+        }
+        it "expect head of (emptyList +: 1 :+ 2) to be 1" {
+            expect (headOf $ emptyList +: 1 :+ 2) toBe 1
+        }
+        it "expect head of (emptyList +: 1 +: 2 reverse) to be 1" {
+            expect (headOf $ emptyList +: 1 +: 2 reverse) toBe 1
+        }
+        it "expect (emptyList +: 1 ++ (emptyList +: 2) length) to be 2" {
+            expect (emptyList +: 1 ++ (emptyList +: 2) length) toBe 2
+        }
+        it "expect head of (emptyList +: 1 ++ $ emptyList +: 2) to be 1" {
+            expect (headOf $ emptyList +: 1 ++ $emptyList +: 2) toBe 1
+        }
+        it "expect head of (emptyList +: 1 ++ (emptyList +: 2) reverse) to be 2" {
+            expect (headOf $ emptyList +: 1 ++ (emptyList +: 2) reverse) toBe 2
+        }
+        it "expect (emptyList +: 1 +: 2 mkString number::toString \",\") to be \"2,1\"" {
+            expect (emptyList +: 1 +: 2 mkString number::toString ",") toBe "2,1"
+        }
+        it "expect (emptyList +: 1 +: 2 find (1 ==) present) to be true" {
+            expect (emptyList +: 1 +: 2 find (1 ==) present) toBe true
+        }
+        it "expect (emptyList +: 1 +: 2 find (3 ==) present) to be false" {
+            expect (emptyList +: 1 +: 2 find (3 ==) present) toBe false
+        }
+        it "expect (emptyList +: 1 +: 2 foldL number::(-) 0) to be 0-1-2" {
+            expect (emptyList +: 1 +: 2 foldL number::(-) 0) toBe $ -3
+        }
+        it "expect (emptyList +: 1 +: 2 foldR number::(-) 0) to be -1" {
+            expect (emptyList +: 1 +: 2 foldR number::(-) 0) toBe $ -1
+        }
+    done 
+}
+
+def constructionAssertions : TestLogger -> unit = l -> {
+    description l "List operations"
+        it "expect (List[1]) to be not empty" {
+            expect (List[1] empty) toBe false
+        }
+        it "expect (List[1]) to be 1" {
+            expect (List[1] length) toBe 1
+        }
+        it "expect head of (List[1;2]) to be 1" {
+            expect (headOf $ List[1;2]) toBe 1
+        }
+        it "expect head of (List[1;2] reverse) to be 2" {
+            expect (headOf $ List[1;2] reverse) toBe 2
+        }
+    done 
+}
+
+def testSuite : TestLogger -> unit = logger -> {
+    do {
+      List[
+        operationAssertions;
+        constructionAssertions
+      ] each $ r -> r logger
+    } return ()
+}
+
+testSuite consoleLogger

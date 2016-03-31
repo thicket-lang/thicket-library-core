@@ -27,8 +27,8 @@ NATIVE=src/main/js
 # Clean binaries
 #
 
-rm bin/*
-rm obj/*
+# rm bin/*
+# rm obj/*
 
 # 
 # Compile main (generic)

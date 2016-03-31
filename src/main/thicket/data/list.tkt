@@ -47,14 +47,13 @@ class list[a] this:List[a] {
 
     empty   : bool
     length  : number
-
-    reverse : list[a]
     
-    (++)    : list[a] -> list[a]
-    
+    (++)    : list[a] -> list[a]    
     (+:)    : a -> list[a]
     (:+)    : a -> list[a]
-
+    
+    reverse : list[a]
+    
     find    : (a -> bool) -> option[a]
 
     foldL   : [b] (b -> a -> b) -> b -> b
@@ -74,13 +73,9 @@ class list[a] this:List[a] {
     def empty = self fold true (_ _ -> false)
     def length = self foldR (_ r -> r ++) 0
 
-    def reverse = list $ self foldL (b a -> Cons a b) Nil
+    def reverse = list $ self foldR (a b -> Cons a b) Nil
 
-    def (++) l = 
-        self empty fold l $ 
-            l empty fold self $
-                self foldL (r e -> list $ Cons e r.unbox) l
-                
+    def (++) l = self empty fold l $ l empty fold self $ self foldL (r -> r +:) l            
     def (+:) a = list $ Cons a this
     def (:+) a = self ++ $ list $ Cons a Nil
 
@@ -104,7 +99,7 @@ class list[a] this:List[a] {
         
     def Nil.mkString f s = ""
     def Cons.mkString f s =
-        f this.head + $ list this.tail empty fold "" $ s + $ list this.tail mkString f s
+        list this.tail empty fold (f this.head) $"$(f this.head)$(s)$(list this.tail mkString f s)"
 }
 
 class ziplist[a,b] this:List[(a,b)] {
@@ -139,6 +134,10 @@ def list2builder : [a] list[a] -> CollectionBuilder[a,list[a]] = l -> {
 /**
  * Adapters
  */
+
+def adapter any2list : [a] a -> list[a] = { 
+    emptyList +: 
+}
 
 def adapter ziplist2list : [a,b] ziplist[a,b] -> list[(a,b)] = l -> {
     list $ l unbox

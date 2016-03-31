@@ -10,6 +10,9 @@ module Test
 
 import Test.Data.Array
 import Test.Data.Boolean
+import Test.Data.Character
+import Test.Data.Hashmap
+import Test.Data.List
 import Test.Data.Number 
 
 do {
@@ -18,6 +21,7 @@ do {
         testSuite from Test.Data.Boolean;
         testSuite from Test.Data.Character;
         testSuite from Test.Data.Hashmap;
+        testSuite from Test.Data.List;
         testSuite from Test.Data.Number
     ] each $ e -> e consoleLogger
 } return ()
