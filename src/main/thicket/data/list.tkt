@@ -21,6 +21,7 @@ from Data.Monadic import Monadic
 from Data.Array import array, emptyArray
 from Data.Sequence import Sequence
 from Lang.Do import do
+from Lang.When import when
 from Lang.Builder.Collection import *
 
 type List[a] {
@@ -98,8 +99,10 @@ class list[a] this:List[a] {
             l fold whenNil whenCons
         
     def Nil.mkString f s = ""
-    def Cons.mkString f s =
-        list this.tail empty fold (f this.head) $"$(f this.head)$(s)$(list this.tail mkString f s)"
+    def Cons.mkString f s = 
+        when (list this.tail empty)
+        then { f this.head }
+        else $"$(f this.head)$(s)$(list this.tail mkString f s)"
 }
 
 class ziplist[a,b] this:List[(a,b)] {

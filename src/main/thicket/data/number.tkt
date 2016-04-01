@@ -20,6 +20,7 @@ from Data.List import emptyList,list
 from Data.Matcher import matcher
 from Data.Additionable import additionable
 
+from Logic.Combinators import combinators
 from Lang.Range import Range,foreach
 
 class number this:native {
@@ -87,7 +88,7 @@ class number this:native {
     def toString = string $ internal "number.toString" self
 }
 
-def (+) : number -> number = a -> a
+def (+) : number -> number = combinators.I
 def (-) : number -> number = number::negate
 
 def Infinity : number = {1/0}

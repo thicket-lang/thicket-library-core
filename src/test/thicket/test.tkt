@@ -14,6 +14,7 @@ import Test.Data.Character
 import Test.Data.Hashmap
 import Test.Data.List
 import Test.Data.Number 
+import Test.Data.Option
 
 do {
     List[
@@ -22,7 +23,8 @@ do {
         testSuite from Test.Data.Character;
         testSuite from Test.Data.Hashmap;
         testSuite from Test.Data.List;
-        testSuite from Test.Data.Number
+        testSuite from Test.Data.Number;
+        testSuite from Test.Data.Option
     ] each $ e -> e consoleLogger
 } return ()
 
