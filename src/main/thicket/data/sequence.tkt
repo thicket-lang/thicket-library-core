@@ -24,10 +24,10 @@ model Sequence[a] {
     isDefinedAt   : number -> bool
     indexOf       : Comparable[a] -> option[number]
     lastIndexOf   : Comparable[a] -> option[number]
+    subSequenceAt : Sequence[Comparable[a]] -> number -> bool
     length        : number
     get           : number -> option[a]
     toList        : list[a]
-    subSequenceAt : Sequence[Comparable[a]] -> number -> bool
 }
 
 model Modifiable[a,t] {
@@ -38,6 +38,11 @@ model Modifiable[a,t] {
 // Traits definition
 //
 
+model IndexOfContext {
+    last : number -> bool
+    next : number -> number
+}
+
 trait sequence[a] {
     with Sequence[a]
 } {
@@ -46,19 +51,19 @@ trait sequence[a] {
     def isDefinedAt i = 
         self get i fold false (_ -> true)
         
-    def _indexOf_ : Comparable[a] -> number -> (number -> bool) -> (number -> number) -> option[number] = a i last next ->
-        when (last i)
+    def _indexOf_ : Comparable[a] -> number -> IndexOfContext -> option[number] = a i context ->
+        when (context last i)
         then none
         else $ self get i flatmap 
              $ b -> when (a==b)
                     then { some i }
-                    else { self _indexOf_ a (next i) last next }             
+                    else { self _indexOf_ a (context next i) context }             
         
     def indexOf a = 
-        self _indexOf_ a 0 (self.length==) (i -> i++)
+        self _indexOf_ a 0 $ IndexOfContext (self.length==) number::(++)
 
     def lastIndexOf a = 
-        self _indexOf_ a (self.length--) (0==) (i -> i--)
+        self _indexOf_ a (self.length--) $ IndexOfContext (0==) number::(--)
         
     def subSequenceAt s offset =
         0 to (s.length--) fold 
@@ -70,9 +75,10 @@ trait sequence[a] {
                 if (c1 == c2)
                 yield true) 
             orElse false
-        
+
     def toList = 
-        (self.length--) downto 0 fold emptyList $ c i -> self get i fold c (c+:)        
+        let update = l i -> self get i fold l (l+:) in
+            (self.length --) downto 0 fold emptyList update
 }
 
 trait modifiable[a,t] {

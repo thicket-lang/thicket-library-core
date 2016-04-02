@@ -61,8 +61,8 @@ class string this:native {
     def subStringAt = self subSequenceAt
         
     def toNumber = internal "string.toNumber" self (n -> some $ number n) none
-
-def toChars = 
+    
+    def toChars = 
         let update = r i -> self get i fold r (r set i) in
             0 to (self.length --) fold (emptyArray self.length) update
 }
