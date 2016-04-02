@@ -1,0 +1,38 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015-2016 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+
+module Test.Data.Pair
+
+import Data
+
+import System.Console
+import System.Runtime
+
+import Spec.Core
+import Spec.Logger.Console
+
+def operationsAssertions : TestLogger -> unit = l -> {
+    description l "Pair operations"
+        it "expect (pair (1,4) map (1+) (1-) unbox _1) to be 2" {
+            expect (pair (1,4) map (1+) (1-) unbox _1) toBe 2
+        }
+        it "expect (pair (1,4) map (1+) (1-) unbox _2) to be -3" {
+            expect (pair (1,4) map (1+) (1-) unbox _2) toBe $ -3
+        }
+    done
+}
+
+def testSuite : TestLogger -> unit = logger -> {
+    do {
+      List[
+        operationsAssertions
+      ] each $ r -> r logger
+    } return ()
+}
+
+testSuite consoleLogger

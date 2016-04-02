@@ -24,6 +24,12 @@ def comparableAssertions : TestLogger -> unit = l -> {
         it "expect (a' == b') to be false" {
             expect ('a' == 'b') toBe false
         }
+        it "expect ('h' match case 'h' => true otherwise => false) to be true" {
+            expect ('h' match case 'h' => true otherwise => false) toBe true
+        }
+        it "expect ('h' match case 'w' => true otherwise => false) to be false" {
+            expect ('h' match case 'w' => true otherwise => false) toBe false
+        }
     done
 }
 

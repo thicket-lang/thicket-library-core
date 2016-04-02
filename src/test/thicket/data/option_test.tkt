@@ -17,7 +17,7 @@ import Spec.Core
 import Spec.Logger.Console
 
 def operationsAssertions : TestLogger -> unit = l -> {
-    description l "Option predicate"
+    description l "Option operations"
         it "expect (some 1 present) to be true" {
             expect (some 1 present) toBe true
         }

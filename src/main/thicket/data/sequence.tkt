@@ -20,13 +20,14 @@ from Lang.When import when
 //
 
 model Sequence[a] {
-    isEmpty     : bool
-    isDefinedAt : number -> bool
-    indexOf     : Comparable[a] -> option[number]
-    lastIndexOf : Comparable[a] -> option[number]
-    length      : number
-    get         : number -> option[a]
-    toList      : list[a]
+    isEmpty       : bool
+    isDefinedAt   : number -> bool
+    indexOf       : Comparable[a] -> option[number]
+    lastIndexOf   : Comparable[a] -> option[number]
+    length        : number
+    get           : number -> option[a]
+    toList        : list[a]
+    subSequenceAt : Sequence[Comparable[a]] -> number -> bool
 }
 
 model Modifiable[a,t] {
@@ -58,6 +59,17 @@ trait sequence[a] {
 
     def lastIndexOf a = 
         self _indexOf_ a (self.length--) (0==) (i -> i--)
+        
+    def subSequenceAt s offset =
+        0 to (s.length--) fold 
+            (some true)
+            (r i -> 
+                for _  <- r
+                    c1 <- { s get i }
+                    c2 <- { self get $ offset + i }
+                if (c1 == c2)
+                yield true) 
+            orElse false
         
     def toList = 
         (self.length--) downto 0 fold emptyList $ c i -> self get i fold c (c+:)        

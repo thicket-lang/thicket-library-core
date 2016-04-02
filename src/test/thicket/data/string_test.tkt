@@ -1,0 +1,92 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015-2016 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+
+module Test.Data.String
+
+import Data
+
+import System.Console
+import System.Runtime
+
+import Spec.Core
+import Spec.Logger.Console
+
+def operationsAssertions : TestLogger -> unit = l -> {
+    description l "String operations"
+        it "expect (\"a\" == \"a\") to be true" {
+            expect ("a" == "a") toBe true
+        }
+        it "expect (\"a\" == \"b\") to be false" {
+            expect ("a" == "b") toBe false
+        }
+        it "expect (\"\" length) to be 0" {
+            expect ("" length) toBe 0
+        }
+        it "expect (\"hello\" length) to be 5" {
+            expect ("hello" length) toBe 5
+        }
+        it "expect (\"hello\" indexOf 'l' orElse -1) to be 2" {
+            expect ("hello" indexOf 'l' orElse $ -1) toBe 2
+        }
+        it "expect (\"hello\" lastIndexOf 'l' orElse -1) to be 3" {
+            expect ("hello" lastIndexOf 'l' orElse $ -1) toBe 3
+        }
+        it "expect (\"hello\" indexOf 'w' orElse -1) to be -1" {
+            expect ("hello" lastIndexOf 'w' orElse $ -1) toBe $ -1
+        }
+        it "expect (\"hello\" match case \"hello\" => true otherwise => false) to be true" {
+            expect ("hello" match case "hello" => true otherwise => false) toBe true
+        }
+        it "expect (\"hello\" match case \"world\" => true otherwise => false) to be false" {
+            expect ("hello" match case "world" => true otherwise => false) toBe false
+        }
+        it "expect (\"hello\" set 0 'H') to be \"Hello\"" {
+            expect ("hello" set 0 'H') toBe "Hello"
+        }
+        it "expect (\"hello\" set 5 'H') to be \"hello\"" {
+            expect ("hello" set 5 'H') toBe "hello"
+        }
+        it "expect (\"hello\" get 0 orElse '?') to be 'h'" {
+            expect ("hello" get 0 orElse '?') toBe 'h'
+        }
+        it "expect (\"hello\" get 5 orElse '?') to be '?'" {
+            expect ("hello" get 5 orElse '?') toBe '?'
+        }
+        it "expect (\"hello\" + \" world!\") to be \"Hello world!\"" {
+            expect ("hello" + " world") toBe "hello world"
+        }
+        it "expect (\"Na\" * 3) to be \"NaNaNa\"" {
+            expect ("Na" * 3) toBe "NaNaNa"
+        }
+        it "expect (\"Hello\" subStringAt \"H\" 0) to be true" {
+            expect ("Hello" subStringAt "H" 0) toBe true
+        }
+        it "expect (\"Hello\" subStringAt \"He\" 0) to be true" {
+            expect ("Hello" subStringAt "He" 0) toBe true
+        }
+        it "expect (\"Hello\" subStringAt \"el\" 1) to be true" {
+            expect ("Hello" subStringAt "el" 1) toBe true
+        }
+        it "expect (\"123.3\" toNumber orElse -1) to be 123.3" {
+            expect ("123.3" toNumber orElse $ -1) toBe 123.3
+        }
+        it "expect (\"123a.3\" toNumber orElse -1) to be -1" {
+            expect ("123a.3" toNumber orElse $ -1) toBe $ -1
+        }
+    done
+}
+
+def testSuite : TestLogger -> unit = logger -> {
+    do {
+      List[
+        operationsAssertions
+      ] each $ r -> r logger
+    } return ()
+}
+
+testSuite consoleLogger

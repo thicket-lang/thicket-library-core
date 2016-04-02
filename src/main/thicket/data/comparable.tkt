@@ -14,7 +14,7 @@ from Data.Boolean import bool, true, false
 
 model Comparable[k] {
     unbox    : k    
-
+    
     (==)     : k -> bool 
     (!=)     : k -> bool    
     (=>)     : k -> bool

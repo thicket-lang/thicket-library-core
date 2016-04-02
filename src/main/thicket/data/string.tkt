@@ -58,24 +58,13 @@ class string this:native {
     
     def length = number $ internal "string.length" self    
                 
-    def subStringAt s offset =
-        0 to (self.length--) fold 
-            (some true)
-            (r i -> 
-                for _  <- r
-                    c1 <- { self get i }
-                    c2 <- { s get $ offset + i }
-                if (c1 == c2)
-                yield true) 
-                orElse false
+    def subStringAt = self subSequenceAt
         
     def toNumber = internal "string.toNumber" self (n -> some $ number n) none
-    def toChars = 
+
+def toChars = 
         let update = r i -> self get i fold r (r set i) in
             0 to (self.length --) fold (emptyArray self.length) update
-    def toList = 
-        let update = l i -> self get i fold l (l+:) in
-            (self.length --) downto 0 fold emptyList update
 }
 
 /**

@@ -97,6 +97,12 @@ def predicateAssertions : TestLogger -> unit = l -> {
         it "expect 2<?3 to be true" {
             expect (2<?3) toBe true
         }
+        it "expect (3 match case 3 => true otherwise => false) to be true" {
+            expect (3 match case 3 => true otherwise => false) toBe true
+        }
+        it "expect (3 match case 4 => true otherwise => false) to be false" {
+            expect (3 match case 4 => true otherwise => false) toBe false
+        }
     done 
 }
 
