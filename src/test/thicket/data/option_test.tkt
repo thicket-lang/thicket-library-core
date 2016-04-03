@@ -26,24 +26,24 @@ def operationsAssertions : TestLogger -> unit = l -> {
         it "expect (some 1 orElse 0) to be 1" {
             expect (some 1 orElse 0) toBe 1
         }
-        it "expect (some 1 map number::(++) orElse 0) to be 2" {
-            expect (some 1 map number::(++) orElse 0) toBe 2
-        }
         it "expect (none present) to be false" {
             expect (none present) toBe false
         }
         it "expect (none orElse 0) to be 0" {
             expect (none orElse 0) toBe 0
         }
-        it "expect (none map number::(++) orElse 0) to be 0" {
-            expect (none map number::(++) orElse 0) toBe 0
-        }    
         it "expect (some 1 fold 0 combinators.I) to be 1" {
             expect (some 1 fold 0 combinators.I) toBe 1
         }
         it "expect (none fold 0 combinators.I) to be 0" {
             expect (none fold 0 combinators.I) toBe 0
         }
+        it "expect (some 1 map number::(++) orElse 0) to be 2" {
+            expect (some 1 map number::(++) orElse 0) toBe 2
+        }
+        it "expect (none map number::(++) orElse 0) to be 0" {
+            expect (none map number::(++) orElse 0) toBe 0
+        }    
         it "expect (some 1 flatmap some present) to be true" {
             expect (some 1 flatmap some present) toBe true
         }

@@ -14,10 +14,12 @@ from Data.Boolean import bool
  * Language syntactic extension
  * 
  *     when   COND then A1 else A2
+ *
+ * same as
+ *
  *     unless COND then A2 else A1
  * 
- * NOTE: if is a reserved word so 
- *       it cannot be used here!
+ * NOTE: if is a reserved word so it cannot be used here!
  */
 
 class when[a] this:bool {

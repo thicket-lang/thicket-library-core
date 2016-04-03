@@ -23,8 +23,14 @@ def operationsAssertions : TestLogger -> unit = l -> {
         it "expect (success 1 success) to be true" {
             expect (success 1 success) toBe true
         }
+        it "expect (success 1 recoverWith (combinators.K 0)) to be 1" {
+            expect (success 1 recoverWith (combinators.K 0)) toBe 1
+        }
         it "expect (failure \"error\" success) to be false" {
             expect (failure "error" success) toBe false
+        }
+        it "expect (failure \"error\" recoverWith (combinators.K 0)) to be 0" {
+            expect (failure "error" recoverWith (combinators.K 0)) toBe 0
         }
         it "expect (success 1 fold combinators.I (combinators.K 0)) to be 1" {
             expect (success 1 fold combinators.I (combinators.K 0)) toBe 1
@@ -32,6 +38,27 @@ def operationsAssertions : TestLogger -> unit = l -> {
         it "expect (failure \"error\" fold combinators.I (combinators.K 0)) to be 0" {
             expect (failure "error" fold combinators.I (combinators.K 0)) toBe 0
         }        
+        it "expect (success 1 map (1+) recoverWith (combinators.K 0)) to be 2" {
+            expect (success 1 map (1+) recoverWith (combinators.K 0)) toBe 2
+        }        
+        it "expect (failure \"error\" map (1+) recoverWith 0) to be 0" {
+            expect (failure "error" map (1+) recoverWith (combinators.K 0)) toBe 0
+        }        
+        it "expect (success 1 flatmap (s -> success $ 1+s) recoverWith (combinators.K 0)) to be 2" {
+            expect (success 1 flatmap (s -> success $ 1+s) recoverWith (combinators.K 0)) toBe 2
+        }        
+        it "expect (failure \"error\" flatmap (s -> success $ 1+s) recoverWith (combinators.K 0)) to be 0" {
+            expect (failure "error" flatmap (s -> success $ 1+s) recoverWith (combinators.K 0)) toBe 0
+        }        
+        it "expect (success 1 filter (1==) success) to be true" {
+            expect (success 1 filter (1==) success) toBe true
+        }
+        it "expect (success 2 filter (1==) success) to be false" {
+            expect (success 2 filter (1==) success) toBe false
+        }
+        it "expect (failure \"error\" filter (1==) success) to be false" {
+            expect (failure "error" filter (1==) success) toBe false
+        }
     done
 }
 

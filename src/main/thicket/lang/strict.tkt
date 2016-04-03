@@ -12,6 +12,9 @@ module Lang.Strict
  * Language syntactic extension
  * 
  *     strict f x forces the evaluation of x
+ *
+ * This is done using an intermediate class where this
+ * is evaluated when the class constructor is called.
  */
 
 class strictClass[a] this:a {

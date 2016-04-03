@@ -1,3 +1,5 @@
+/* global process */
+
 /*
  * Thicket
  * https://github.com/d-plaindoux/thicket
@@ -10,16 +12,15 @@ module.exports = function(runtime) {
     
     'use strict';
 
-    var $i = runtime.instruction;
-        
-    // ------------------------------
-    // Console
-    // ------------------------------
-    
-    runtime.native("runtime.exit", 1, function(env) {
-        var exitValue = runtime.constant(env.pop());
-        
-        process.exit(exitValue);
-    });
+    // Not used var $i = runtime.instruction; 
 
+    runtime.native("runtime.exit", 1, function(env) {
+        var value = runtime.constant(env.pop());
+        
+        if (process) {
+            return process.exit(value);
+        } else {
+            throw new Error("Process not available");
+        }
+    });
 };
