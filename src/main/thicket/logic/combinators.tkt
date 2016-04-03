@@ -26,4 +26,3 @@ def combinators : Combinators = {
         /*B*/ (x y z -> x $ y z)
         /*S*/ (x y z -> x z $ y z)
 }
-

@@ -1,0 +1,34 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015-2016 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+ 
+module System.Error
+
+from Data.Pair import Pair
+from Data.String import string
+from Data.Number import number
+from Data.Option import option, none, some
+
+model CallStack {
+    filename : string
+    location : number,number
+    parent   : option[CallStack]
+}
+
+model Error {
+    message   : string
+    callstack : CallStack
+}
+
+def currentStack : CallStack = { 
+    CallStack "*" (1,1) none 
+}
+
+def error : string -> Error = message -> { 
+    Error message currentStack 
+}

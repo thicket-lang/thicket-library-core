@@ -49,7 +49,10 @@
 
             "Logic.Combinators",
 
+            "Standard.Function",
             "Standard.Math",
+
+            "System.Error",
             "System.Internal",
             "System.Console",
             "System.Runtime"        

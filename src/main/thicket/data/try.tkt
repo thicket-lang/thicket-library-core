@@ -14,37 +14,40 @@ from Data.Option import option,some,none
 from Data.Monadic import Monadic
 from Data.Unit import unit
 
+from Standard.Function import function
+
+from System.Error import Error, error
 from Logic.Combinators import combinators
 
 type Try[a] {
     Success { _ : a }
-    Failure { _ : string }
+    Failure { _ : Error }
 }
 
 class try[a] this:Try[a] {  
     with Monadic[try,a]
 
     unbox       : Try[a]
-    fold        : [b] (a -> b) -> (string -> b) -> b
+    fold        : [b] (a -> b) -> (Error -> b) -> b
     
     success     : bool
     ifSuccess   : (a -> unit) -> unit
     
-    recoverWith : (string -> a) -> a
+    recoverWith : (Error -> a) -> a
 } {
     def unbox = this
     
     def Failure.fold _ f = f this._
     def Success.fold s _ = s this._
 
-    def map f = self fold (s -> success $ f s) failure
-    def flatmap f = self fold f failure
+    def map f = self fold (s -> success $ f s) failsWithError
+    def flatmap f = self fold f failsWithError
 
     def Failure.filter _ = self
     def Success.filter p = p this._ fold self $ failure "Filter fails"
     
-    def success = self fold (_ -> true) (_ -> false)
-    def ifSuccess f = self fold f (_ -> ())    
+    def success = self fold (combinators.K true) (combinators.K false)
+    def ifSuccess f = self fold f (combinators.K ())    
 
     def recoverWith = self fold combinators.I
 }
@@ -57,8 +60,12 @@ def success : [a] a -> try[a] = a -> {
     try $ Success a 
 }
 
-def failure : [a] string -> try[a] = a -> { 
+def failsWithError : [a] Error -> try[a] = a -> { 
     try $ Failure a 
+}
+
+def failure : [a] string -> try[a] = a -> { 
+    failsWithError $ error a 
 }
 
 /**
@@ -66,5 +73,5 @@ def failure : [a] string -> try[a] = a -> {
  */
 
 def adapter try2option : [a] try[a] -> option[a] = t -> {
-    t fold some (_ -> none)
+    t fold some (combinators.K none)
 }

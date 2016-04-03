@@ -8,11 +8,13 @@
  
 module Data.Sequence
 
-from Data.Number import number
+from Data.Array import emptyArray, array
 from Data.Boolean import bool, false, true
-from Data.Option import option, some , none
 from Data.Comparable import Comparable
 from Data.List import emptyList, list
+from Data.Number import number
+from Data.Option import option, some , none
+
 from Lang.When import when
 
 //
@@ -27,6 +29,7 @@ model Sequence[a] {
     subSequenceAt : Sequence[Comparable[a]] -> number -> bool
     length        : number
     get           : number -> option[a]
+    toArray       : array[a]
     toList        : list[a]
 }
 
@@ -55,7 +58,7 @@ trait sequence[a] {
         when (context last i)
         then none
         else $ self get i flatmap 
-             $ b -> when (a==b)
+             $ b -> when (a == b)
                     then { some i }
                     else { self _indexOf_ a (context next i) context }             
         
@@ -76,6 +79,10 @@ trait sequence[a] {
                 yield true) 
             orElse false
 
+    def toArray = 
+        let update = r i -> self get i fold r (r set i) in
+            0 to (self.length --) fold (emptyArray self.length) update
+    
     def toList = 
         let update = l i -> self get i fold l (l+:) in
             (self.length --) downto 0 fold emptyList update

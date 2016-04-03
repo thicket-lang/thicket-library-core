@@ -1,0 +1,22 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015-2016 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+module Standard.Function
+
+from Data.Pair import Pair
+
+model Function {
+    curry   : [a,b,c] ((a,b) -> c)  -> (a -> b -> c)
+    uncurry : [a,b,c] (a -> b -> c) -> ((a,b) -> c)
+}
+
+def function : Function = {
+    Function 
+        /*curry*/   (f a b -> f (a,b))
+        /*uncurry*/ (f p -> f p._1 p._2)
+}

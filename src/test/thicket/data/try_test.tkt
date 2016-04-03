@@ -1,0 +1,46 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015-2016 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+
+module Test.Data.Try
+
+import Data
+
+import Logic.Combinators
+
+import System.Console
+import System.Runtime
+
+import Spec.Core
+import Spec.Logger.Console
+
+def operationsAssertions : TestLogger -> unit = l -> {
+    description l "Try operations"
+        it "expect (success 1 success) to be true" {
+            expect (success 1 success) toBe true
+        }
+        it "expect (failure \"error\" success) to be false" {
+            expect (failure "error" success) toBe false
+        }
+        it "expect (success 1 fold combinators.I (combinators.K 0)) to be 1" {
+            expect (success 1 fold combinators.I (combinators.K 0)) toBe 1
+        }        
+        it "expect (failure \"error\" fold combinators.I (combinators.K 0)) to be 0" {
+            expect (failure "error" fold combinators.I (combinators.K 0)) toBe 0
+        }        
+    done
+}
+
+def testSuite : TestLogger -> unit = logger -> {
+    do {
+      List[
+        operationsAssertions
+      ] each $ r -> r logger
+    } return ()
+}
+
+testSuite consoleLogger
