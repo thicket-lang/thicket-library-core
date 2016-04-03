@@ -40,14 +40,14 @@ class try[a] this:Try[a] {
     def Failure.fold _ f = f this._
     def Success.fold s _ = s this._
 
-    def map f = self fold (s -> success $ f s) failsWithError
+    def map f = self fold (combinators.B success f) failsWithError
     def flatmap f = self fold f failsWithError
 
     def Failure.filter _ = self
     def Success.filter p = p this._ fold self $ failure "Filter fails"
     
     def success = self fold (combinators.K true) (combinators.K false)
-    def ifSuccess f = self fold f (combinators.K ())    
+    def ifSuccess f = self fold f $ combinators.K ()
 
     def recoverWith = self fold combinators.I
 }
@@ -73,5 +73,5 @@ def failure : [a] string -> try[a] = a -> {
  */
 
 def adapter try2option : [a] try[a] -> option[a] = t -> {
-    t fold some (combinators.K none)
+    t fold some $ combinators.K none
 }

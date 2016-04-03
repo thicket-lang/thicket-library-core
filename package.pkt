@@ -67,6 +67,7 @@
                 "backend.js",
                 "mutable.js",
                 "console.js",
+                "runtime.js",
                 "range.js"
             ]
         },
