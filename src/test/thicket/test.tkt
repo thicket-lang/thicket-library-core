@@ -18,6 +18,7 @@ import Test.Data.Option
 import Test.Data.Pair
 import Test.Data.String
 import Test.Data.Try
+import Test.Standard.Function
 
 do {
     List[
@@ -30,7 +31,8 @@ do {
         testSuite from Test.Data.Option;
         testSuite from Test.Data.Pair;
         testSuite from Test.Data.String;
-        testSuite from Test.Data.Try
+        testSuite from Test.Data.Try;        
+        testSuite from Test.Standard.Function
     ] each $ e -> e consoleLogger
 } return ()
 

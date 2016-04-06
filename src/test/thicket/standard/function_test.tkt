@@ -1,0 +1,38 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015-2016 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+
+module Test.Standard.Function
+
+import Data
+
+import System.Console
+import System.Runtime
+
+import Spec.Core
+import Spec.Logger.Console
+
+def functionAssertions : TestLogger -> unit = l -> {
+    description l "Curry a function"
+        it "expect (function.uncurry number::(+) (1,2)) to be 3" {
+            expect (function.uncurry number::(+) (1,2)) toBe 3
+        }
+        it "expect (function.curry pair 1 2 unbox _1) to be 1" {
+            expect (function.curry pair 1 2 unbox _1) toBe 1
+        }
+    done
+}
+
+def testSuite : TestLogger -> unit = logger -> {
+    do {
+      List[
+        functionAssertions
+      ] each $ r -> r logger
+    } return ()
+}
+
+testSuite consoleLogger

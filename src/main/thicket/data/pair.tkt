@@ -8,7 +8,7 @@
  
 module Data.Pair 
  
-// Note: type (a,b) === Pair[a,b]
+// Note: syntax simplification (a,b) === Pair[a,b]
 
 model Pair[a,b] {
    _1 : a

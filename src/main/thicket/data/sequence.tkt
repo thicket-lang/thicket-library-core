@@ -22,8 +22,8 @@ from Lang.When import when
 //
 
 model Sequence[a] {
-    isEmpty       : bool
-    isDefinedAt   : number -> bool
+    empty         : bool
+    definedAt     : number -> bool
     indexOf       : Comparable[a] -> option[number]
     lastIndexOf   : Comparable[a] -> option[number]
     subSequenceAt : Sequence[Comparable[a]] -> number -> bool
@@ -41,32 +41,33 @@ model Modifiable[a,t] {
 // Traits definition
 //
 
-model IndexOfContext {
-    last : number -> bool
-    next : number -> number
+model IndexOfContext[a] {
+    search : Comparable[a]
+    last   : number -> bool
+    next   : number -> number
 }
 
 trait sequence[a] {
     with Sequence[a]
 } {
-    def isEmpty = self length == 0
+    def empty = self length == 0
 
-    def isDefinedAt i = 
+    def definedAt i = 
         self get i fold false (_ -> true)
         
-    def _indexOf_ : Comparable[a] -> number -> IndexOfContext -> option[number] = a i context ->
+    def _indexOf_ : IndexOfContext[a] -> number -> option[number] = context i ->
         when (context last i)
         then none
         else $ self get i flatmap 
-             $ b -> when (a == b)
+             $ b -> when (context.search == b)
                     then { some i }
-                    else { self _indexOf_ a (context next i) context }             
+                    else { self _indexOf_ context (context next i) }             
         
     def indexOf a = 
-        self _indexOf_ a 0 $ IndexOfContext (self.length==) number::(++)
+        self _indexOf_ (IndexOfContext a (self.length==) number::(++)) 0
 
     def lastIndexOf a = 
-        self _indexOf_ a (self.length--) $ IndexOfContext (0==) number::(--)
+        self _indexOf_ (IndexOfContext a (0?>) number::(--)) (self.length--)
         
     def subSequenceAt s offset =
         0 to (s.length--) fold 
@@ -81,11 +82,11 @@ trait sequence[a] {
 
     def toArray = 
         let update = r i -> self get i fold r (r set i) in
-            0 to (self.length --) fold (emptyArray self.length) update
+            0 to (self.length--) fold (emptyArray self.length) update
     
     def toList = 
         let update = l i -> self get i fold l (l+:) in
-            (self.length --) downto 0 fold emptyList update
+            (self.length--) downto 0 fold emptyList update
 }
 
 trait modifiable[a,t] {

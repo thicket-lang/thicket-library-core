@@ -18,17 +18,17 @@ import Spec.Logger.Console
 
 def sequenceAssertions : TestLogger -> unit = l -> {
     description l "Array as a sequence"
-        it "expect (emptyArray 0 isEmpty) to be true" {
-            expect (emptyArray 0 isEmpty) toBe true
+        it "expect (emptyArray 0 empty) to be true" {
+            expect (emptyArray 0 empty) toBe true
         }
-        it "expect (emptyArray 1 isEmpty) to be false" {
-            expect (emptyArray 1 isEmpty) toBe false
+        it "expect (emptyArray 1 empty) to be false" {
+            expect (emptyArray 1 empty) toBe false
         }
-        it "expect (emptyArray 1 isDefinedAt 0) to be false" {
-            expect (emptyArray 1 isDefinedAt 0) toBe false
+        it "expect (emptyArray 1 definedAt 0) to be false" {
+            expect (emptyArray 1 definedAt 0) toBe false
         }
-        it "expect (emptyArray 1 set 0 1 isDefinedAt 0) to be true" {
-            expect (emptyArray 1 set 0 1 isDefinedAt 0) toBe true
+        it "expect (emptyArray 1 set 0 1 definedAt 0) to be true" {
+            expect (emptyArray 1 set 0 1 definedAt 0) toBe true
         }
         it "expect (emptyArray 1 indexOf 1) to be none" {
             expect (emptyArray 1 indexOf 1 fold (-1) (i -> i)) toBe (-1)
