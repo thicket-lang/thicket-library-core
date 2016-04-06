@@ -69,5 +69,12 @@ module.exports = function(runtime) {
         
         return [[ $i.CONST, self.length ]];    
     });
+
+    runtime.native("array.concat", 2, function(env){
+        var self = runtime.constant(env.pop()),
+            added = runtime.constant(env.pop());
+        
+        return [[ $i.CONST, self.concat(added) ]];    
+    });
 };
  

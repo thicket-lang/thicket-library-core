@@ -63,6 +63,9 @@ def sequenceAssertions : TestLogger -> unit = l -> {
         it "expect (emptyArray 1 set 0 1 toList length) to be 1" {
             expect (emptyArray 1 set 0 1 toList length) toBe 1
         }
+        it "expect ((emptyArray 1) ++ (emptyArray 2) length) to be 3" {
+            expect ((emptyArray 1) ++ (emptyArray 2) length) toBe 3
+        }
     done 
 }
 

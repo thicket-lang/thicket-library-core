@@ -35,6 +35,8 @@ class array[a] this:native {
     reset  : number -> array[a]
     
     map    : [b] (a -> b) -> array[b]
+    
+    (++)   : array[a] -> array[a]
 
     each   : [b] (a -> b) -> unit
 
@@ -50,6 +52,8 @@ class array[a] this:native {
     def map f = 
         let update = r i -> self get i fold r { a -> r set i $ f a } in
             0 to (self.length --) fold (emptyArray self.length) update
+            
+    def (++) a = array $ internal "array.concat" self a
             
     def each f = 
         0 to (self.length --) fold () (r i -> self get i fold r $ a -> do {f a} return r)
