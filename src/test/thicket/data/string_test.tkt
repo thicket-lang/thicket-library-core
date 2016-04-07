@@ -39,11 +39,11 @@ def operationsAssertions : TestLogger -> unit = l -> {
         it "expect (\"hello\" indexOf 'w' orElse -1) to be -1" {
             expect ("hello" lastIndexOf 'w' orElse $ -1) toBe $ -1
         }
-        it "expect (\"hello\" match case \"hello\" => true otherwise => false) to be true" {
-            expect ("hello" match case "hello" => true otherwise => false) toBe true
+        it "expect (\"hello\" match case (\"hello\"==) => true otherwise => false) to be true" {
+            expect ("hello" match case ("hello"==) => true otherwise => false) toBe true
         }
-        it "expect (\"hello\" match case \"world\" => true otherwise => false) to be false" {
-            expect ("hello" match case "world" => true otherwise => false) toBe false
+        it "expect (\"hello\" match case (\"world\"==) => true otherwise => false) to be false" {
+            expect ("hello" match case ("world"==) => true otherwise => false) toBe false
         }
         it "expect (\"hello\" set 0 'H') to be \"Hello\"" {
             expect ("hello" set 0 'H') toBe "Hello"

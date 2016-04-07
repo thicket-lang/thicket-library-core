@@ -24,22 +24,16 @@ def comparableAssertions : TestLogger -> unit = l -> {
         it "expect (a' == b') to be false" {
             expect ('a' == 'b') toBe false
         }
-        it "expect ('h' match case 'h' => true otherwise => false) to be true" {
-            expect ('h' match case 'h' => true otherwise => false) toBe true
-        }
-        it "expect ('h' match case 'w' => true otherwise => false) to be false" {
-            expect ('h' match case 'w' => true otherwise => false) toBe false
-        }
     done
 }
 
 def matcherAssertions : TestLogger -> unit = l -> {
     description l "Character as a matcher"
-        it "expect ('a' match case 'a' => 1 otherwise => 2) to be 1" {
-            expect ('a' match case 'a' => 1 otherwise => 2) toBe 1
+        it "expect ('h' match case ('h'==) => true otherwise => false) to be true" {
+            expect ('h' match case ('h'==) => true otherwise => false) toBe true
         }
-        it "expect ('a' match case 'a' => 1 otherwise => 2) to be 2" {
-            expect ('b' match case 'a' => 1 otherwise => 2) toBe 2
+        it "expect ('h' match case ('w'==) => true otherwise => false) to be false" {
+            expect ('h' match case ('w'==) => true otherwise => false) toBe false
         }
     done
 }

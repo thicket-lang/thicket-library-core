@@ -42,7 +42,18 @@ class char this:native {
     def toNumber = number $ internal "char.toNumber" self
 }
 
-def eol : char = '\n'
+// Standard characters
+
+model Chars {
+    eol : char
+    tab : char
+}
+
+def chars : Chars = { 
+    Chars 
+        /*eol*/ '\n'
+        /*tab*/ '\t'        
+}
 
 /**
  * Adapter
