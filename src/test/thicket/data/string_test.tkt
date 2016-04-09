@@ -17,7 +17,7 @@ import Spec.Core
 import Spec.Logger.Console
 
 def operationsAssertions : TestLogger -> unit = l -> {
-    description l "String operations"
+    description l "String comparison and length"
         it "expect (\"a\" == \"a\") to be true" {
             expect ("a" == "a") toBe true
         }
@@ -30,6 +30,11 @@ def operationsAssertions : TestLogger -> unit = l -> {
         it "expect (\"hello\" length) to be 5" {
             expect ("hello" length) toBe 5
         }
+    done
+}
+
+def indexOfAssertions : TestLogger -> unit = l -> {
+    description l "String indexOF"
         it "expect (\"hello\" indexOf 'l' orElse -1) to be 2" {
             expect ("hello" indexOf 'l' orElse $ -1) toBe 2
         }
@@ -39,12 +44,22 @@ def operationsAssertions : TestLogger -> unit = l -> {
         it "expect (\"hello\" indexOf 'w' orElse -1) to be -1" {
             expect ("hello" lastIndexOf 'w' orElse $ -1) toBe $ -1
         }
+    done
+}
+
+def matchAssertions : TestLogger -> unit = l -> {
+    description l "String matcher"
         it "expect (\"hello\" match case (\"hello\"==) => true otherwise => false) to be true" {
             expect ("hello" match case ("hello"==) => true otherwise => false) toBe true
         }
         it "expect (\"hello\" match case (\"world\"==) => true otherwise => false) to be false" {
             expect ("hello" match case ("world"==) => true otherwise => false) toBe false
         }
+    done
+}
+        
+def mutationAssertions : TestLogger -> unit = l -> {
+    description l "String mutation"        
         it "expect (\"hello\" set 0 'H') to be \"Hello\"" {
             expect ("hello" set 0 'H') toBe "Hello"
         }
@@ -57,6 +72,11 @@ def operationsAssertions : TestLogger -> unit = l -> {
         it "expect (\"hello\" get 5 orElse '?') to be '?'" {
             expect ("hello" get 5 orElse '?') toBe '?'
         }
+    done
+}
+
+def manipulationAssertions : TestLogger -> unit = l -> {
+    description l "String manipulation"        
         it "expect (\"hello\" + \" world!\") to be \"Hello world!\"" {
             expect ("hello" + " world") toBe "hello world"
         }
@@ -84,7 +104,11 @@ def operationsAssertions : TestLogger -> unit = l -> {
 def testSuite : TestLogger -> unit = logger -> {
     do {
       List[
-        operationsAssertions
+        operationsAssertions;
+        indexOfAssertions;
+        matchAssertions;
+        mutationAssertions;
+        manipulationAssertions
       ] each $ r -> r logger
     } return ()
 }

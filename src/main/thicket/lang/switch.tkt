@@ -77,3 +77,7 @@ class caseFalse[a,b] this:a {
 } {
     def (=>) _ = switch this toModel
 }
+
+def adapter comparable2predicate : [a] Comparable[a] -> (a -> bool) = c -> {
+    c ==
+}
