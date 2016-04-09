@@ -16,7 +16,7 @@ import System.Runtime
 import Spec.Core
 import Spec.Logger.Console
 
-def comparableAssertions : TestLogger -> unit = l -> {
+def comparableAssertions : TestLogger -> TestContext = l -> {
     description l "Boolean as a comparable"
         it "expect (true == true) to be true" {
             expect (true == true) toBe true
@@ -30,7 +30,7 @@ def comparableAssertions : TestLogger -> unit = l -> {
     done
 }
 
-def matcherAssertions : TestLogger -> unit = l -> {
+def matcherAssertions : TestLogger -> TestContext = l -> {
     description l "Boolean as a matcher"
         it "expect (true match case (true==) => 1 otherwise => 2) to be 1" {
             expect (true match case (true==) => 1 otherwise => 2) toBe 1
@@ -41,7 +41,7 @@ def matcherAssertions : TestLogger -> unit = l -> {
     done
 }
 
-def operatorsAssertions : TestLogger -> unit = l -> {
+def operatorsAssertions : TestLogger -> TestContext = l -> {
     description l "Boolean operators"
         it "expect (true || true) to be true" {
             expect (true || true) toBe true

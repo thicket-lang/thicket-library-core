@@ -16,7 +16,7 @@ import System.Runtime
 import Spec.Core
 import Spec.Logger.Console
 
-def operationsAssertions : TestLogger -> unit = l -> {
+def operationsAssertions : TestLogger -> TestContext = l -> {
     description l "Pair operations"
         it "expect (pair (1,4) map (1+) (1-) unbox _1) to be 2" {
             expect (pair (1,4) map (1+) (1-) unbox _1) toBe 2

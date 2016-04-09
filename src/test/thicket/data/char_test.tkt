@@ -16,7 +16,7 @@ import System.Runtime
 import Spec.Core
 import Spec.Logger.Console
 
-def comparableAssertions : TestLogger -> unit = l -> {
+def comparableAssertions : TestLogger -> TestContext = l -> {
     description l "Character as a sequence"
         it "expect ('a' == 'a') to be true" {
             expect ('a' == 'a') toBe true
@@ -27,7 +27,7 @@ def comparableAssertions : TestLogger -> unit = l -> {
     done
 }
 
-def matcherAssertions : TestLogger -> unit = l -> {
+def matcherAssertions : TestLogger -> TestContext = l -> {
     description l "Character as a matcher"
         it "expect ('h' match case ('h'==) => true otherwise => false) to be true" {
             expect ('h' match case ('h'==) => true otherwise => false) toBe true
@@ -38,7 +38,7 @@ def matcherAssertions : TestLogger -> unit = l -> {
     done
 }
 
-def operatorsAssertions : TestLogger -> unit = l -> {
+def operatorsAssertions : TestLogger -> TestContext = l -> {
     description l "Character operators"
         it "expect ('a' + 1) to be 'b'" {
             expect ('a' + 1) toBe 'b'
@@ -49,7 +49,7 @@ def operatorsAssertions : TestLogger -> unit = l -> {
     done
 }
 
-def specialsAssertions : TestLogger -> unit = l -> {
+def specialsAssertions : TestLogger -> TestContext = l -> {
     description l "Character specials"
         it "expect ('\t' toString) to be \"<TAB>\"" {
             expect ('\t' toString) toBe "\t"

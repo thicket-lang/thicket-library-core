@@ -16,7 +16,7 @@ import System.Runtime
 import Spec.Core
 import Spec.Logger.Console
 
-def functionAssertions : TestLogger -> unit = l -> {
+def functionAssertions : TestLogger -> TestContext = l -> {
     description l "Curry a function"
         it "expect (function.uncurry number::(+) (1,2)) to be 3" {
             expect (function.uncurry number::(+) (1,2)) toBe 3

@@ -16,7 +16,7 @@ import System.Runtime
 import Spec.Core
 import Spec.Logger.Console
 
-def sequenceAssertions : TestLogger -> unit = l -> {
+def sequenceAssertions : TestLogger -> TestContext = l -> {
     description l "Array as a sequence"
         it "expect (emptyArray 0 empty) to be true" {
             expect (emptyArray 0 empty) toBe true
@@ -69,7 +69,7 @@ def sequenceAssertions : TestLogger -> unit = l -> {
     done 
 }
 
-def modifiableAssertions : TestLogger -> unit = l -> {
+def modifiableAssertions : TestLogger -> TestContext = l -> {
     description l "Array as a modifiable"
         it "expect (emptyArray 0 set 0 1 length) to be 0" {
             expect (emptyArray 0 set 0 1 length) toBe 0
@@ -80,7 +80,7 @@ def modifiableAssertions : TestLogger -> unit = l -> {
     done
 }
 
-def immutabilityAssertions : TestLogger -> unit = l -> {
+def immutabilityAssertions : TestLogger -> TestContext = l -> {
     description l "Array immutable"
         it "expect (emptyArray 0 set 0 1 length) to be 0" {
             let a = emptyArray 1 in
@@ -91,7 +91,7 @@ def immutabilityAssertions : TestLogger -> unit = l -> {
     done
 }
 
-def arrayAssertions : TestLogger -> unit = l -> {
+def arrayAssertions : TestLogger -> TestContext = l -> {
     description l "Array methods"
         it "expect (emptyArray 1 set 0 1 reset 0 get 0) to be none" {
             expect (emptyArray 1 set 0 1 reset 0 get 0 fold (-1) (i -> i)) toBe (-1)

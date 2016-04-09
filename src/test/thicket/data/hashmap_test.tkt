@@ -16,7 +16,7 @@ import System.Runtime
 import Spec.Core
 import Spec.Logger.Console
 
-def emptyHashmapAssertions : TestLogger -> unit = l -> {
+def emptyHashmapAssertions : TestLogger -> TestContext = l -> {
     description l "Fresh hashmap"
         it "expect (newHashmap empty) to be true" {
             expect (newHashmap empty) toBe true
@@ -27,7 +27,7 @@ def emptyHashmapAssertions : TestLogger -> unit = l -> {
     done
 }
 
-def notEmptyHashmapAssertions : TestLogger -> unit = l -> {
+def notEmptyHashmapAssertions : TestLogger -> TestContext = l -> {
     description l "Managin hashmap"
         it "expect (newHashmap add 1 2 empty) to be false" {
             expect (newHashmap add 1 2 empty) toBe false
@@ -48,7 +48,7 @@ def notEmptyHashmapAssertions : TestLogger -> unit = l -> {
 }
 
 
-def hashmapBuilderAssertions : TestLogger -> unit = l -> {
+def hashmapBuilderAssertions : TestLogger -> TestContext = l -> {
     description l "Building hashmap"
         it "expect (Hashmap[1=>2] empty) to be false" {
             expect (Hashmap[1=>2] empty) toBe false

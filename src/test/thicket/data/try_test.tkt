@@ -18,7 +18,7 @@ import System.Runtime
 import Spec.Core
 import Spec.Logger.Console
 
-def operationsAssertions : TestLogger -> unit = l -> {
+def operationsAssertions : TestLogger -> TestContext = l -> {
     description l "Try operations"
         it "expect (success 1 success) to be true" {
             expect (success 1 success) toBe true

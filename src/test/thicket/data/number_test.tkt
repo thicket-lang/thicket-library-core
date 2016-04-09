@@ -16,7 +16,7 @@ import System.Runtime
 import Spec.Core
 import Spec.Logger.Console
 
-def operationAssertions : TestLogger -> unit = l -> {
+def operationAssertions : TestLogger -> TestContext = l -> {
     description l "Number operations"
         it "expect 2+4 to be 6" {
             expect (2+4) toBe 6
@@ -72,7 +72,7 @@ def operationAssertions : TestLogger -> unit = l -> {
     done 
 }
 
-def dottedOperationAssertions : TestLogger -> unit = l -> {
+def dottedOperationAssertions : TestLogger -> TestContext = l -> {
     description l "Number dotted operations"
         it "expect 2.(+) 4 to be 6" {
             expect (2.(+) 4) toBe 6
@@ -83,7 +83,7 @@ def dottedOperationAssertions : TestLogger -> unit = l -> {
     done 
 }        
         
-def predicateAssertions : TestLogger -> unit = l -> {
+def predicateAssertions : TestLogger -> TestContext = l -> {
     description l "Number predicates"
         it "expect 2==2 to be true" {
             expect (2==2) toBe true

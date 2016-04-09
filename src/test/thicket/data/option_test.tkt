@@ -18,7 +18,7 @@ import System.Runtime
 import Spec.Core
 import Spec.Logger.Console
 
-def operationsAssertions : TestLogger -> unit = l -> {
+def operationsAssertions : TestLogger -> TestContext = l -> {
     description l "Option operations"
         it "expect (some 1 present) to be true" {
             expect (some 1 present) toBe true

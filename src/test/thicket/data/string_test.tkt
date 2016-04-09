@@ -16,7 +16,7 @@ import System.Runtime
 import Spec.Core
 import Spec.Logger.Console
 
-def operationsAssertions : TestLogger -> unit = l -> {
+def operationsAssertions : TestLogger -> TestContext = l -> {
     description l "String comparison and length"
         it "expect (\"a\" == \"a\") to be true" {
             expect ("a" == "a") toBe true
@@ -33,7 +33,7 @@ def operationsAssertions : TestLogger -> unit = l -> {
     done
 }
 
-def indexOfAssertions : TestLogger -> unit = l -> {
+def indexOfAssertions : TestLogger -> TestContext = l -> {
     description l "String indexOF"
         it "expect (\"hello\" indexOf 'l' orElse -1) to be 2" {
             expect ("hello" indexOf 'l' orElse $ -1) toBe 2
@@ -47,7 +47,7 @@ def indexOfAssertions : TestLogger -> unit = l -> {
     done
 }
 
-def matchAssertions : TestLogger -> unit = l -> {
+def matchAssertions : TestLogger -> TestContext = l -> {
     description l "String matcher"
         it "expect (\"hello\" match case (\"hello\"==) => true otherwise => false) to be true" {
             expect ("hello" match case ("hello"==) => true otherwise => false) toBe true
@@ -58,7 +58,7 @@ def matchAssertions : TestLogger -> unit = l -> {
     done
 }
         
-def mutationAssertions : TestLogger -> unit = l -> {
+def mutationAssertions : TestLogger -> TestContext = l -> {
     description l "String mutation"        
         it "expect (\"hello\" set 0 'H') to be \"Hello\"" {
             expect ("hello" set 0 'H') toBe "Hello"
@@ -75,7 +75,7 @@ def mutationAssertions : TestLogger -> unit = l -> {
     done
 }
 
-def manipulationAssertions : TestLogger -> unit = l -> {
+def manipulationAssertions : TestLogger -> TestContext = l -> {
     description l "String manipulation"        
         it "expect (\"hello\" + \" world!\") to be \"Hello world!\"" {
             expect ("hello" + " world") toBe "hello world"

@@ -18,7 +18,7 @@ import Spec.Logger.Console
 
 def headOf : list[number]-> number = l -> { l fold 0 combinators.K }
 
-def operationAssertions : TestLogger -> unit = l -> {
+def operationAssertions : TestLogger -> TestContext = l -> {
     description l "List operations"
         it "expect emptyList to be empty" {
             expect (emptyList empty) toBe true
@@ -68,7 +68,7 @@ def operationAssertions : TestLogger -> unit = l -> {
     done 
 }
 
-def constructionAssertions : TestLogger -> unit = l -> {
+def constructionAssertions : TestLogger -> TestContext = l -> {
     description l "List operations"
         it "expect (List[1]) to be not empty" {
             expect (List[1] empty) toBe false
