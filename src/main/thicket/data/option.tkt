@@ -17,8 +17,8 @@ from Data.Unit import unit
 from Logic.Combinators import combinators
 
 type Option[a] {
-    model Some { _ : a }
     model None
+    model Some { _ : a }
 }
 
 class option[a] this:Option[a] {
@@ -26,6 +26,7 @@ class option[a] this:Option[a] {
     
     unbox     : Option[a]
     fold      : [b] b -> (a -> b) -> b
+    cata      : [b] (None[a] -> b) -> (Some[a] -> b) -> b
     present   : bool
     ifPresent : (a -> unit) -> unit
     orElse    : a -> a
@@ -34,6 +35,9 @@ class option[a] this:Option[a] {
     
     def None.fold n _ = n
     def Some.fold _ s = s this._
+
+    def None.cata n _ = n this
+    def Some.cata _ s = s this
 
     def map f = self fold none (s -> some $ f s)
     def flatmap f = self fold none f
