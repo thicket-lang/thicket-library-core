@@ -21,8 +21,10 @@ from Data.Comparable import Comparable
  *     otherwise => e3
  */
 
+typedef Predicate[a] = a -> bool
+
 model SwitchModel[a,b] {
-    case      : (a -> bool) -> CaseModel[a,b]
+    case      : Predicate[a] -> CaseModel[a,b]
     otherwise : CaseOtherwise[b]
 }
 

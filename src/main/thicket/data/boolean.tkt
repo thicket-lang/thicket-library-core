@@ -31,6 +31,7 @@ class bool this:Bool {
     with matcher[bool]
     
     fold     : [a] a -> a -> a
+    cata     : [a] (True -> a) -> (False -> a) -> a
     
     not      : bool
     (&&)     : bool -> bool
@@ -45,6 +46,9 @@ class bool this:Bool {
 
     def True.fold  t _ = t
     def False.fold _ f = f
+
+    def True.cata  t _ = t this
+    def False.cata _ f = f this
 
     def not    = self fold false true
     def (&&) l = self fold l false
