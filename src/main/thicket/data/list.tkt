@@ -43,6 +43,7 @@ class list[a] this:List[a] {
 
     unbox   : List[a]
     fold    : [b] b -> (a -> list[a] -> b) -> b
+    cata    : [b] (Nil[a] -> b) -> (Cons[a] -> b) -> b
     
     each    : [b] (a -> b) -> unit
 
@@ -66,8 +67,11 @@ class list[a] this:List[a] {
 } {
     def unbox = this
 
-    def Nil.fold n c = n
-    def Cons.fold n c = c this.head (list this.tail)
+    def Nil.fold n _ = n
+    def Cons.fold _ c = c this.head (list this.tail)
+
+    def Nil.cata n _ = n this
+    def Cons.cata _ c = c this
     
     def each f = self foldL (r c -> do { f c } return r) ()
 

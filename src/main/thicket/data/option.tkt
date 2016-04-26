@@ -27,8 +27,10 @@ class option[a] this:Option[a] {
     unbox     : Option[a]
     fold      : [b] b -> (a -> b) -> b
     cata      : [b] (None[a] -> b) -> (Some[a] -> b) -> b
+    
     present   : bool
     ifPresent : (a -> unit) -> unit
+    
     orElse    : a -> a
 } {
     def unbox = this

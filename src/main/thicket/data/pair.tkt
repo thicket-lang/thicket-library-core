@@ -17,8 +17,9 @@ model Pair[a,b] {
 
 class pair[a,b] this:Pair[a,b] {
    unbox : Pair[a,b]
-   map : [c,d] (a -> c) -> (b -> d) -> pair[c,d]
+   map2 : [c,d] (a -> c) -> (b -> d) -> pair[c,d]
+   
 } {
    def unbox = this
-   def map a b = pair $ Pair (a this._1) (b this._2)
+   def map2 a b = pair $ Pair (a this._1) (b this._2)
 }
