@@ -22,7 +22,7 @@ from Logic.Combinators import combinators
 type Try[a] {
     Success { _ : a }
     Failure { _ : Error }
-}
+} 
 
 class try[a] this:Try[a] {  
     with Monadic[try,a]

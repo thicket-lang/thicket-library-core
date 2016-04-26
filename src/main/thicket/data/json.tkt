@@ -33,6 +33,16 @@ class jsonPrettyPrinter this:JSon {
             $"{$(this._ mkString pairToString ",")}"
 }
 
+class json this:JSon {
+    cata : [a] (JSonNull -> a) -> (JSonString -> a) -> (JSonNumber -> a) -> (JSonArray -> a) -> (JSonObject -> a) -> a
+} {
+    def JSonNull.cata   f _ _ _ _ = f this
+    def JSonString.cata _ f _ _ _ = f this
+    def JSonNumber.cata _ _ f _ _ = f this
+    def JSonArray.cata  _ _ _ f _ = f this
+    def JSonObject.cata _ _ _ _ f = f this    
+}
+
 def encode : JSon -> string = data -> {
     jsonPrettyPrinter data toString
 }
