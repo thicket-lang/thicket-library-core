@@ -27,7 +27,9 @@ class collectionBuilderOpened[a,b] this:CollectionBuilder[a,b] {
 }
 
 class collectionBuilder[a,b] this:CollectionBuilder[a,b] {
-    ([) : a -> collectionBuilderOpened[a,b]
+    ([)   : a -> collectionBuilderOpened[a,b]
+    empty : b
 } {
-    def ([) = collectionBuilderOpened this ;
+    def ([)   = collectionBuilderOpened this ;
+    def empty = this unbox
 }

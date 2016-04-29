@@ -19,5 +19,5 @@ model Additionable[a] {
 trait additionable[a] {
     with Additionable[a]
 } {
-    def (-) a = self + (a negate)
+    def (-) a = self + (0-a)
 }

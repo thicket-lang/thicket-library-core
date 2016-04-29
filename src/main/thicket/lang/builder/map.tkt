@@ -14,7 +14,7 @@ from Data.Pair import Pair
 
 /* 
  * Language syntactic extension for map entity
- * Example with hashmap: Hashmap[1=>"2";2="3";3=>"3"]
+ * Example with hashmap: Hashmap[1=>"2";2="3";3=>"3"] or Hashmap empty
  */
 
 model MapBuilder[a,b,m] {
@@ -37,7 +37,9 @@ class mapKeyBuilderOpened[a,b,m] this:(Comparable[a],MapBuilder[a,b,m]) {
 }
 
 class mapBuilder[a,b,m] this:MapBuilder[a,b,m] {
-    ([) : Comparable[a] -> mapKeyBuilderOpened[a,b,m]
+    ([)   : Comparable[a] -> mapKeyBuilderOpened[a,b,m]
+    empty : m 
 } {
     def ([) a = mapKeyBuilderOpened (a,this)
+    def empty = this unbox
 }

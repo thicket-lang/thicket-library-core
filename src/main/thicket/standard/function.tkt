@@ -11,8 +11,8 @@ module Standard.Function
 from Data.Pair import Pair
 
 model Function {
-    curry   : [a,b,c] ((a,b) -> c)  -> (a -> b -> c)
-    uncurry : [a,b,c] (a -> b -> c) -> ((a,b) -> c)
+    curry   : [a,b,m] ((a,b) -> m) -> (a -> b -> m)
+    uncurry : [a,b,m] (a -> b -> m) -> ((a,b) -> m)
 }
 
 def function : Function = {
