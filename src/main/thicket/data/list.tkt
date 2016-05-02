@@ -61,7 +61,8 @@ class list[a] this:List[a] {
     foldL   : [b] (b -> a -> b) -> b -> b
     foldR   : [b] (a -> b -> b) -> b -> b
 
-    zip     : [b] list[b] -> ziplist[a,b]
+    zip     : [b] list[b] -> list[(a,b)]    
+    unzip   : [b,c] (a -> (b,c)) -> list[b],list[c]
     
     mkString : (a -> string) -> string -> string
 } {
@@ -96,32 +97,23 @@ class list[a] this:List[a] {
     def Nil.foldR _ b = b
     def Cons.foldR f b = list this.tail foldR f $ f this.head b
 
-    def Nil.zip l = ziplist Nil
+    def Nil.zip l = list Nil
     def Cons.zip l =
-        let whenNil = ziplist Nil in
-        let whenCons = head tail -> ziplist $ Cons (this.head,head) (list this.tail zip tail unbox) in
+        let whenNil = list Nil in
+        let whenCons = head tail -> list $ Cons (this.head,head) (list this.tail zip tail unbox) in
             l fold whenNil whenCons
-        
+
+    def Nil.unzip  _ = emptyList, emptyList
+    def Cons.unzip f = 
+        let tail = list this.tail unzip f in
+        let head = f this.head in
+            (list $ Cons head._1 tail._1.unbox),(list $ Cons head._2 tail._2.unbox)                
+
     def Nil.mkString f s = ""
     def Cons.mkString f s = 
         when (list this.tail empty)
         then { f this.head }
-        else $"$(f this.head)$(s)$(list this.tail mkString f s)"
-}
-
-class ziplist[a,b] this:List[(a,b)] {
-    unbox  : List[(a,b)] 
-    toList : list[(a,b)] 
-    unzip  : list[a],list[b]     
-} {
-    def unbox = this
-    
-    def toList = list this
-    
-    def Nil.unzip = emptyList,emptyList
-    def Cons.unzip = 
-        let tail = ziplist this.tail unzip in
-            (list $ Cons this.head._1 tail._1.unbox),(list $ Cons this.head._2 tail._2.unbox)        
+        else $"$(f this.head)$(s)$(list this.tail mkString f s)"        
 }
 
 /**
@@ -144,14 +136,6 @@ def list2builder : [a] list[a] -> CollectionBuilder[a,list[a]] = l -> {
 
 def adapter any2list : [a] a -> list[a] = { 
     emptyList +: 
-}
-
-def adapter ziplist2list : [a,b] ziplist[a,b] -> list[(a,b)] = l -> {
-    list $ l unbox
-}
-
-def adapter list2ziplist : [a,b] list[(a,b)] -> ziplist[a,b] = l -> {
-    ziplist $ l unbox
 }
 
 def adapter list2collection : [a] list[a] -> Collection[a] = l -> {

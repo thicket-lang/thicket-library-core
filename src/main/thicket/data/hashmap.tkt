@@ -44,7 +44,7 @@ class hashmap[k,v] this:Hashmap[k,v] {
 
   def toList : list[(k,v)] = this foldR (l r -> l ++ r) emptyList
 
-  def toLists : list[k],list[v] = ziplist (self toList unbox) unzip
+  def toLists : list[k],list[v] = list (self toList unbox) unzip (i->i)
 
   def removeFromList : Comparable[k] -> (number,list[(k,v)])= c ->
     let index = self getIndex c in
