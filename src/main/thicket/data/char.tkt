@@ -28,6 +28,8 @@ class char this:native {
     
     toString : string
     toNumber : number
+    toUpper  : char
+    toLower  : char
 } {
     def unbox = self
 
@@ -40,6 +42,9 @@ class char this:native {
     
     def toString = string this
     def toNumber = number $ internal "char.toNumber" self
+    
+    def toUpper = (self => 'a') && (self <= 'z') fold (self - 32) self
+    def toLower = (self => 'A') && (self <= 'Z') fold (self + 32) self
 }
 
 // Standard characters

@@ -13,10 +13,10 @@ from Data.Unit import unit
 from Data.String import string
 from System.Internal import internal
 
-class consoleClass this:unit {
-    log : string -> consoleClass
-} {
-    def log s = internal "console.log" s self
+model Console {
+    log : string -> Console
 }
 
-def console : consoleClass = { consoleClass () }
+def console : Console = { 
+    Console $ s -> internal "console.log" s console
+}
