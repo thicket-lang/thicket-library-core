@@ -1,0 +1,66 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015-2016 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+module Control.Free
+
+from Data.Pair import Pair
+
+/* http://okmij.org/ftp/Computation/free-monad.html */
+
+trait Functor[f,a] {
+    fmap : [b] (a->b) -> f[a] -> f[b]
+}
+
+type Free[f,a] {
+    Point { _ : a }
+    Join  { _ : f[Free[f,a]] }
+}
+
+class freeFold[f,a] this:Free[f,a] {
+    fold : [b] (Point[f,a] -> b) -> (Join[f,a] -> b) -> b
+} {
+    def Point.fold p _ = p this
+    def Join.fold  _ j = j this    
+}
+
+trait free[f,a] {
+    functor : [a] f[a] -> Functor[f,a]
+    fmap    : [b] (a -> b) -> Free[f,a] -> Free[f,b]
+} {
+    def fmap f a = freeFold a fold 
+        (p -> Point $ f p._) 
+        (j -> Join $ self functor j._ fmap (self fmap f) j._)
+}   
+
+class functor[f,a] this:Free[f,a] {
+    with free[f,a]
+    
+    map : [b] (a -> b) -> functor[f,b]
+} {
+    def map f = functor $ self fmap f this
+}
+
+class applicative[f,a] this:Free[f,a] {
+    with free[f,a]   
+    
+    (<*>) : [b] (a -> b) -> applicative[f,b]
+} {
+    def (<*>) f = applicative $ self fmap f this
+}
+
+class monad[f,a] this:Free[f,a] {
+    with free[f,a] 
+    
+    (>>=) : [b] (a -> b) -> monad[f,b]
+} {
+    def (>>=) f = monad $ self fmap f this
+}
+
+def return : [a,f] a -> monad[f,a] = a -> {
+    monad $ Point a
+}
