@@ -13,10 +13,7 @@ based system.
 LICENSE         bin         package-test.pkt    src
 README.md       obj         package.pkt
 
-> $THICKET_HOME/bin/thicket build
-[Boot.Core] - Module objcode added
-[Data] - Module objcode added
-[Data.Native] - Module objcode added
+> $THICKET_HOME/bin/thicket project install
 ...
 ```
 
