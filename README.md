@@ -2,7 +2,7 @@
 
 One core library dedicated to the Thicket language.
 
-## Package construction
+## Project construction
 
 The following command  build, test and intall the package in the
 user local repository i.e. `~/.thicket/site` directory on unix
