@@ -60,16 +60,12 @@ class try[a] this:Try[a] {
  * Factories
  */
 
-def success : [a] a -> try[a] = a -> { 
-    try $ Success a 
-}
+def success : [a] a -> try[a] = a -> { try $ Success a }
+def failsWithError : [a] Error -> try[a] = a -> { try $ Failure a }
+def failure : [a] string -> try[a] = a -> { failsWithError $ error a }
 
-def failsWithError : [a] Error -> try[a] = a -> { 
-    try $ Failure a 
-}
-
-def failure : [a] string -> try[a] = a -> { 
-    failsWithError $ error a 
+def lift : [a,b] (a -> b) -> try[a] -> try[b] = f a -> {
+    a fold (a -> success $ f a) failsWithError
 }
 
 /**

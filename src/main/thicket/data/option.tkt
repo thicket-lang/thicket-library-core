@@ -58,6 +58,10 @@ class option[a] this:Option[a] {
 def some : [a] a -> option[a] = e -> { option $ Some e }
 def none : option = { option None }
 
+def lift : [a,b] (a -> b) -> option[a] -> option[b] = f a -> {
+    a fold none $ a -> some $ f a
+}
+
 /**
  * Adapters
  */
