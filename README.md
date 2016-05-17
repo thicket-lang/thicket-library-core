@@ -2,7 +2,7 @@
 
 One core library dedicated to the Thicket language.
 
-## Package construction
+## Project construction
 
 The following command  build, test and intall the package in the
 user local repository i.e. `~/.thicket/site` directory on unix
@@ -13,10 +13,7 @@ based system.
 LICENSE         bin         package-test.pkt    src
 README.md       obj         package.pkt
 
-> $THICKET_HOME/bin/thicket build
-[Boot.Core] - Module objcode added
-[Data] - Module objcode added
-[Data.Native] - Module objcode added
+> $THICKET_HOME/bin/thicket project install
 ...
 ```
 
