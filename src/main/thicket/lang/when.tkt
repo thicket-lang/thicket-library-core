@@ -37,5 +37,5 @@ class unless[a] this:bool {
 class whenElse[a] this:(a -> a) {
     else : a -> a
 } {
-    def else a = this a
+    def else = this
 }

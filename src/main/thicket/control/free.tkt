@@ -9,12 +9,13 @@
 module Control.Free
 
 from Data.Pair import Pair
+from Data.Number import number
 
 /* http://okmij.org/ftp/Computation/free-monad.html */
 
 trait Functor[f,a] {
     fmap : [b] (a->b) -> f[a] -> f[b]
-}
+} 
 
 type Free[f,a] {
     Point { _ : a }
@@ -29,7 +30,7 @@ class freeFold[f,a] this:Free[f,a] {
 }
 
 trait free[f,a] {
-    functor : [a] f[a] -> Functor[f,a]
+    functor : [a] f[a] -> Functor[f,a] 
     fmap    : [b] (a -> b) -> Free[f,a] -> Free[f,b]
 } {
     def fmap f a = freeFold a fold 
@@ -61,6 +62,7 @@ class monad[f,a] this:Free[f,a] {
     def (>>=) f = monad $ self fmap f this
 }
 
-def return : [a,f] a -> monad[f,a] = a -> {
-    monad $ Point a
+def return : [f,a] ([a] f[a] -> Functor[f,a]) -> a -> monad[f,a] = f a -> {
+    monad (Point a)
+    // TODO new monad (Point a) with functor=f
 }
