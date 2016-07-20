@@ -8,10 +8,12 @@
  
 module Data.Monadic
 
-from Data.Boolean import bool
+from Data.Functor import Functor
+from Data.Filter import Filter
 
-model Monadic[M,a] {
-    map     : [b] (a -> b) -> M[b]
+trait Monadic[M,a] {
+    with Functor[M,a]
+    with Filter[M,a]
+    
     flatmap : [b] (a -> M[b]) -> M[b]
-    filter  : (a -> bool) -> M[a]
 }

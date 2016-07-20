@@ -14,34 +14,34 @@ from Data.Number import number
 /* http://okmij.org/ftp/Computation/free-monad.html */
 
 trait Functor[f,a] {
-    fmap : [b] (a->b) -> f[a] -> f[b]
+    fmap: [b] (a->b) -> f[a] -> f[b]
 } 
 
 type Free[f,a] {
-    Point { _ : a }
-    Join  { _ : f[Free[f,a]] }
+    Pure   { _: a }
+    Impure { _: f[Free[f,a]] }
 }
 
 class freeFold[f,a] this:Free[f,a] {
-    fold : [b] (Point[f,a] -> b) -> (Join[f,a] -> b) -> b
+    fold: [b] (Pure[f,a] -> b) -> (Impure[f,a] -> b) -> b
 } {
-    def Point.fold p _ = p this
-    def Join.fold  _ j = j this    
+    def Pure.fold   p _ = p this
+    def Impure.fold _ j = j this    
 }
 
 trait free[f,a] {
-    functor : [a] f[a] -> Functor[f,a] 
-    fmap    : [b] (a -> b) -> Free[f,a] -> Free[f,b]
+    functor: [a] f[a] -> Functor[f,a] 
+    fmap   : [b] (a -> b) -> Free[f,a] -> Free[f,b]
 } {
     def fmap f a = freeFold a fold 
-        (p -> Point $ f p._) 
-        (j -> Join $ self functor j._ fmap (self fmap f) j._)
+        (p -> Pure $ f p._) 
+        (j -> Impure $ self functor j._ fmap (self fmap f) j._)
 }   
 
 class functor[f,a] this:Free[f,a] {
     with free[f,a]
     
-    map : [b] (a -> b) -> functor[f,b]
+    map: [b] (a -> b) -> functor[f,b]
 } {
     def map f = functor $ self fmap f this
 }
@@ -49,7 +49,7 @@ class functor[f,a] this:Free[f,a] {
 class applicative[f,a] this:Free[f,a] {
     with free[f,a]   
     
-    (<*>) : [b] (a -> b) -> applicative[f,b]
+    (<*>): [b] (a -> b) -> applicative[f,b]
 } {
     def (<*>) f = applicative $ self fmap f this
 }
@@ -57,12 +57,11 @@ class applicative[f,a] this:Free[f,a] {
 class monad[f,a] this:Free[f,a] {
     with free[f,a] 
     
-    (>>=) : [b] (a -> b) -> monad[f,b]
+    (>>=): [b] (a -> b) -> monad[f,b]
 } {
     def (>>=) f = monad $ self fmap f this
 }
 
-def return : [f,a] ([a] f[a] -> Functor[f,a]) -> a -> monad[f,a] = f a -> {
-    monad (Point a)
-    // TODO new monad (Point a) with functor=f
+def return: [f,a] ([b] f[b] -> Functor[f,b]) -> a -> monad[f,a] = f a -> {
+    new monad (Pure a) with functor=f
 }

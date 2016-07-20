@@ -18,6 +18,8 @@
             "Data.Character",
             "Data.Collection",
             "Data.Comparable",
+            "Data.Filter",
+            "Data.Functor",
             "Data.Hashable",
             "Data.Hashmap",
             "Data.Indexable",    
